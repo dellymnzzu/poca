@@ -27,7 +27,7 @@ MongoCilent.connect('mongodb+srv://admin:dlsgud5031@cluster0.7igrfxz.mongodb.net
         console.log(req.body);
     })
 })
-    
+
 });
 
 
@@ -44,6 +44,7 @@ app.get('/sign_up',(req,res)=>{
 })
 
 app.get('/login',(req,res)=>{
+    
     console.log('login 서버 열림');
     res.render('login');   //로그인페이지 만들기
 })
@@ -83,21 +84,19 @@ passport.use(new LocalStrategy({
     })
   }); 
 
-
-app.get('/gallery',(req,res)=>{
-    console.log('gallery서버 열림');
-    res.render('gallery')   // 사진 페이지 만들기
-
+  
+  app.get('/about',(req,res)=>{
+      console.log('gallery서버 열림');
+      res.render('about')   // 사진 페이지 만들기
+      
 });
 
-app.get('/profile',(req,res)=>{
-    console.log('profile서버 열림');
-    res.render('profile')   // 프로필 페이지 만들기 , 사진, 이름, 주소,언제태어났는지, 직업,등등
 
-});
 
-app.get('/mypage',로그인했니,(req,res)=>{
-    res.render('mypage');
+app.get('/mypage',로그인했니,(req,res)=>{ 
+    console.log(req.user);
+    
+    res.render('mypage',{id:req.user});
 })
 
 function 로그인했니(req,res,next){
@@ -108,10 +107,69 @@ function 로그인했니(req,res,next){
     } 
     else{
         
-        res.send("로그인을 해주시길 바랍니다.");
+        res.render('login.ejs');
     }
     
 
 
 }
+
+
+app.post('/sign',(req,res)=>{
+    db.collection('login').insertOne({name:req.body.name,id:req.body.id,pw:req.body.pw}, (error,result)=>{
+        console.log('회원가입완료');
+        res.redirect('/login');
+    })
+})
+
+
+app.get('/write',로그인했니,(req,res)=>{
+    
+
+    res.render('write');
+})
+
+
+app.post('/add',(req,res)=>{
+    
+    res.send('저장완료되었습니다.')
+    
+    var 저장할거 = {title: req.body.title, data :req.body.data, id : req.user._id}
+    
+    db.collection('post').insertOne(저장할거,(에러,결과)=>{
+        console.log('저장완료');
+})
+})
+
+app.get('/qna',(req,res)=>{
+    
+    db.collection('post').find().toArray(function(에러,결과){
+        console.log(결과);
+        res.render('qna.ejs',{posts:결과});
+        
+    })
+})
+
+app.get('/search',(req,res)=>{
+    var 검색조건 = [
+        {
+            $search: {
+                index: 'titleSearch',
+                text: {
+                query: req.query.value,  // 요청 검색하는 곳
+                path: '제목'  // 제목날짜 둘다 찾고 싶으면 ['제목', '날짜']   
+              }
+            }
+          },
+          //{$progect : {}} // 원하는 것만 보여주고 싶을 때 
+          
+          
+        ]
+
+    db.collection('post').aggregate(검색조건).toArray((error,result)=>{
+        console.log(result);
+
+        res.render('qna.ejs',{posts:result});
+    })
+})
 
