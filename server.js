@@ -10,13 +10,14 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 
+
 app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session()); 
 
-MongoCilent.connect('mongodb+srv://admin:dlsgud5031@cluster0.7igrfxz.mongodb.net/sinae?retryWrites=true&w=majority',(에러,client)=>{
+MongoCilent.connect('mongodb+srv://admin:dlsgud5031@cluster0.7igrfxz.mongodb.net/poca?retryWrites=true&w=majority',(에러,client)=>{
     if(에러) return console.log(에러);
-    db = client.db('sinae');
+    db = client.db('poca');
     
     app.post('/sign',(req,res)=>{
        
@@ -132,14 +133,19 @@ app.get('/write',로그인했니,(req,res)=>{
 
 app.post('/add',(req,res)=>{
     
-    res.send('저장완료되었습니다.')
+    db.collection('counter').findOne({name:'게시물갯수'},(error,result)=>{
+        console.log(result.totalPost);
+        var 총게시물갯수=result.totalPost;
+        
+        var 저장할거 = {_id:총게시물갯수+1 ,제목 : req.body.title,날짜 :req.body.data}
+        
+        db.collection('post').insertOne(저장할거,(에러,결과)=>{
+            console.log('저장완료');
+        db.collection('counter').updateOne({name:'게시물갯수'},{$inc: {totalPost:1}},()=>{}) // set : 변경, inc : 기존값에 더해줄 값 
+    });
+    });
     
-    var 저장할거 = {title: req.body.title, data :req.body.data, id : req.user._id}
-    
-    db.collection('post').insertOne(저장할거,(에러,결과)=>{
-        console.log('저장완료');
-})
-})
+});
 
 app.get('/qna',(req,res)=>{
     
@@ -147,6 +153,16 @@ app.get('/qna',(req,res)=>{
         console.log(결과);
         res.render('qna.ejs',{posts:결과});
         
+    })
+})
+
+app.get('/detail/:id',(req,res)=>{
+
+    req.params.id = ObjectId(req.params.id) ;
+    db.collection('post').findOne({_id:req.params.id},(error,result)=>{
+        if(error) return console.log('error');
+        console.log(result);
+        res.render('detail.ejs',{data:result});
     })
 })
 
@@ -172,4 +188,16 @@ app.get('/search',(req,res)=>{
         res.render('qna.ejs',{posts:result});
     })
 })
+
+app.get('/best',(req,res)=>{
+    res.render('best.ejs');
+})
+app.get('/like',(req,res)=>{
+    res.render('like.ejs');
+})
+app.get('/new',(req,res)=>{
+    res.render('new.ejs');
+})
+
+app.get('')
 
