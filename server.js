@@ -132,8 +132,10 @@ app.get('/write',로그인했니,(req,res)=>{
 
 
 app.post('/add',(req,res)=>{
+
+    res.send('저장완료되었습니다.');
     
-    db.collection('counter').findOne({name:'게시물갯수'},(error,result)=>{
+    db.collection('counter').findOne({name:'총게시물갯수'},(error,result)=>{
         console.log(result.totalPost);
         var 총게시물갯수=result.totalPost;
         
@@ -141,7 +143,7 @@ app.post('/add',(req,res)=>{
         
         db.collection('post').insertOne(저장할거,(에러,결과)=>{
             console.log('저장완료');
-        db.collection('counter').updateOne({name:'게시물갯수'},{$inc: {totalPost:1}},()=>{}) // set : 변경, inc : 기존값에 더해줄 값 
+        db.collection('counter').updateOne({name:'총게시물갯수'},{$inc: {totalPost:1}},()=>{}) // set : 변경, inc : 기존값에 더해줄 값 
     });
     });
     
@@ -199,5 +201,5 @@ app.get('/new',(req,res)=>{
     res.render('new.ejs');
 })
 
-app.get('')
+
 

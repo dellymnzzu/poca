@@ -1,0 +1,10 @@
+
+.editor-container {
+    width: 50vw;
+    padding: 16px;
+  }
+  .quil {
+    height: auto !important;
+    margin-bottom: 20px !important;
+  }
+  
