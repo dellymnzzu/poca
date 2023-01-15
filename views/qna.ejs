@@ -17,28 +17,15 @@
     
    
 
-
-    <section class="notice">
-      <div class="page-title">
-            <div class="container">
-                <h3>문의사항</h3>
-            </div>
-        </div>
-    
+    <div class="container input-group mb-2">
+      <input class="form-control" id = "search-input">
+      <button class="input-group-append btn btn-danger" id = "search">검색</button>
+    </div>
+                
+           
         <!-- board seach area -->
-        <div id="board-search">
-            <div class="container">
-                <div class="search-window">
-                    <form action="">
-                        <div class="search-wrap">
-                            
-                            <input id="search" type="search" name="search" placeholder="검색어를 입력해주세요." value="">
-                            <button type="submit" class="btn btn-dark" style="background-color:gray;">검색</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+      
+               
        
       <!-- board list area -->
         <div id="board-list">
@@ -59,7 +46,8 @@
                          
                         </td>
                         <th>
-                          <a href=""><%= posts[i].제목%></a>
+                          
+                          <a onclick="location.href='/detail/'+'<%= posts[i]._id %>'" class="titledetail" data-id="<%= posts[i]._id %>"><%= posts[i].제목%></a>
                           
                         </th>
                         <td><%= posts[i].날짜%></td>
@@ -82,25 +70,11 @@
 
 
     <script> 
-    
-  
 
 
 
-       
+   
 
-    
-
-
-
-
-
-
-
- 
-  
-
- 
 
 
     $('.delete').click((e)=>{ // e : 이벤트 객체

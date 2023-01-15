@@ -158,10 +158,12 @@ app.get('/qna',(req,res)=>{
     })
 })
 
+
+
 app.get('/detail/:id',(req,res)=>{
 
-    req.params.id = ObjectId(req.params.id) ;
-    db.collection('post').findOne({_id:req.params.id},(error,result)=>{
+    
+    db.collection('post').findOne({_id:parseInt(req.params.id)},(error,result)=>{
         if(error) return console.log('error');
         console.log(result);
         res.render('detail.ejs',{data:result});
@@ -172,7 +174,7 @@ app.get('/search',(req,res)=>{
     var 검색조건 = [
         {
             $search: {
-                index: 'titleSearch',
+                index: 'pocaSearch',
                 text: {
                 query: req.query.value,  // 요청 검색하는 곳
                 path: '제목'  // 제목날짜 둘다 찾고 싶으면 ['제목', '날짜']   
@@ -183,13 +185,17 @@ app.get('/search',(req,res)=>{
           
           
         ]
-
-    db.collection('post').aggregate(검색조건).toArray((error,result)=>{
+    console.log(req.query.value);
+    db.collection('post').aggregate(검색조건).toArray((error,result)=>{ 
+        if(error) console.log(result);//aggregate : 검색조건 여러개 가능 
         console.log(result);
-
-        res.render('qna.ejs',{posts:result});
+        
+        res.render('search.ejs', {posts : result});
+        
     })
+    
 })
+
 
 app.get('/best',(req,res)=>{
     res.render('best.ejs');
@@ -201,5 +207,8 @@ app.get('/new',(req,res)=>{
     res.render('new.ejs');
 })
 
+app.get('/poca',(req,res)=>{
+    res.render('poca.ejs');
+})
 
 
