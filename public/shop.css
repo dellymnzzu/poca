@@ -1,0 +1,32 @@
+li,ul{
+   
+    list-style: none;
+     
+}
+
+
+
+
+strong{
+    padding-left:40px;
+    display: block;
+    border-bottom: 1px solid #ebebeb;
+    padding-bottom: 6px;
+}
+
+.container-fluid-new{
+
+    margin:auto;
+    width:0;
+    
+   
+    
+}
+
+
+
+
+
+
+
+

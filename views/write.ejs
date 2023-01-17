@@ -31,7 +31,11 @@
       </div>
        
       
-      <textarea id="summernote" name="data"></textarea>
+      <textarea id="summernote" name="data">
+        
+      </textarea>
+      <input type="hidden" name="use_editor" value="Y" />
+        <input type="hidden" name="use_html" value="Y" />
      
       <input type="submit" class="btn btn-secondary ml-1" style="float:right;" value="등록">
       
@@ -49,6 +53,9 @@
 
 
       <script>
+
+
+ 
 
       $('#summernote').summernote({
         lang:'ko-KR',
