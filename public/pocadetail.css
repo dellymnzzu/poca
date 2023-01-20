@@ -1,0 +1,13 @@
+.product-detail
+    .content-detail{
+        text-align : left !important;
+    }
+    .discount{
+        font-size: 1.2em;
+        text-align: left ;
+        text-decoration: line-through;
+    }
+    .price{
+        font-size: 1.7em;
+        text-align: left;}
+    
