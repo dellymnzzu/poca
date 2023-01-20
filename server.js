@@ -33,10 +33,10 @@ console.log(req.body);
 
 
 
-app.listen(3000);
+app.listen(8080);
 app.get('/',(req,res)=>{
-console.log('3000번 홈 서버 열림');
-res.render('index');
+console.log('8080번 홈 서버 열림');
+res.render('index.ejs');
 });
 
 app.get('/sign_up',(req,res)=>{
@@ -127,7 +127,7 @@ res.redirect('/login');
 app.get('/write',로그인했니,(req,res)=>{
 
 
-res.render('write');
+res.render('write.ejs');
 })
 
 
@@ -210,6 +210,41 @@ res.render('new.ejs');
 app.get('/poca',(req,res)=>{
 res.render('poca.ejs');
 })
+
+app.get('/pocawrite',(req,res)=>{
+    res.render('pocawrite.ejs');
+})
+
+app.post('/addwirte',(req,res)=>{
+    res.send('저장완료되었습니다.');
+
+db.collection('counter').findOne({contentName:'totalNumber'},(error,result)=>{
+console.log(result.totalContent);
+var totalnumber=result.totalContent;
+
+var save = {_id:totalnumber+1 ,제목 : req.body.pocatitle,  대분류:req.body.group, 중분류:req.body.issue, 소분류 : req.body.detail,값 :req.body.price,설명:req.body.explanation}
+
+db.collection('content').insertOne(save,(error,result)=>{
+    console.log('저장완료');
+db.collection('counter').updateOne({name:'totalnumber'},{$inc: {totalContent:1}},()=>{}) 
+});
+});
+
+});
+
+
+
+
+app.get('/pocadetail/:id',(req,res)=>{
+    db.collection('content').findOne({_id:parseInt(req.params.id)},(error,result)=>{
+        if(error) return console.log('error');
+        console.log(result);
+        res.render('pocadetail.ejs',{contents:result});
+    })
+    
+})
+
+
 
 
 

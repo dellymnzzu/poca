@@ -7,106 +7,94 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <!-- <link rel = "stylesheet" href = "/public/main.css"> -->
+    <link rel = "stylesheet" href = "/public/qna.css">
 
-    <title>델리의 귀염뽀짝 할수이따 앱</title>
+    <title>BUTTERFIY</title>
   </head>
   <body>
 
-      <%- include('nav.html') %>
-
-      <div class="container input-group mb-1">
-        <input class="form-control" id = "search-input" style="width:5px">
-        <button class="input-group-append btn btn-danger" id = "search">검색</button>
-      </div>
+    <%- include('nav.html') %>
     
    
 
-        
-      <ul class="list-group">
 
-        <% for(var i= 0;i<posts.length;i++){ %>
-        <li class="list-group-item">
-          
-            <h5>할 일 제목 : <%= posts[i].제목 %></h5>
-            <p>날짜 : <%= posts[i].날짜 %></p>
-            <a class="btn btn-outline-success delete" data-id ="<%= posts[i]._id%>">삭제</button> <!-- data-id는 html문법 몰래 아이디를 숨길 수 있음!-->
-               <!--수정버튼을 누르면 edit.ejs로 들어가기-->
-            
-            <button onclick="location.href='/edit/'+'<%= posts[i]._id %>' " class="btn btn-outline-success update" data-id="<%= posts[i]._id %>" >수정</button>
-           
-        <% } %>  
-
-        
-          
-        </li>
-      
-    </ul>
-
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-
-
-    <script> 
+    <section class="notice">
+      <div class="page-title">
+            <div class="container">
+                <h3>문의사항</h3>
+            </div>
+        </div>
     
-  
-    $('#search').click(function(){
-      var 입력한값 = $('#search-input').val()  //input 유저가 입력한 값
-      window.location.replace('/search?value='+입력한값)   // url을 바꿔주세요
-
-    })
-
-
-
+        <!-- board seach area -->
+    <div id="board-search">
+      <div class="container">
+          <div class="search-window">
+              
+                  <div class="search-wrap">
+                      
+                      <input class="form-control"  id = "search-input"  placeholder="검색어를 입력해주세요.">
+                      <button class="btn btn-dark" id="search">검색</button>
+                  </div>
+              
+          </div>
+      </div>
+  </div>
        
+      <!-- board list area -->
+        <div id="board-list">
+            <div class="container">
+                <table class="board-table">
+                    <thead>
+                    <tr>
+                        <th scope="col" class="th-num">num</th>
+                        <th scope="col" class="th-title">title</th>
+                        <th scope="col" class="th-date">data</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for(var i= 0;i<posts.length;i++){ %>
+                     <tr>
+                       <td>
+                         <%= posts[i]._id%>
+                         
+                        </td>
+                        <th>
+                          
+                          <button onclick="location.href='/detail/'+'<%= posts[i]._id %>'" class="titledetail" data-id="<%= posts[i]._id %>"><%= posts[i].제목%></a>
+                          
+                        </th>
+                        <td><%= posts[i].날짜%></td>
+
+                        <% } %> 
+                    </tr>
+    
+                    
+                  </tbody>
+                </table>
+              </div>
+              <button type="submit" onclick="location.href='/write'" float="right" class="btn btn-secondary">글쓰기</button>
+            </div>
+    
+    </section>
+
 
     
 
-
-
-
-
-
-
- 
+  <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
   
+  <script>
 
- 
 
-
-    $('.delete').click((e)=>{ // e : 이벤트 객체
-      var number = e.target.dataset.id; 
-      var event = $(e.target); // this는 현재 지금 이벤트 동작하는 곳! 
-// 변수 글번호 선언.
-// e.target : 실제로 내가 누른 요소 (지금 내가 클릭한 것)
-// dataset.id : 내가 지금 누른 요소 중 숨겨져있는 id를 가져와!
+$('#search').click(function(){
+  var 입력한값 = $('#search-input').val()  //input 유저가 입력한 값
+  window.location.replace('/search?value='+입력한값)   // url을 바꿔주세요
   
-      $.ajax({
-        method : 'DELETE',
-        url : '/delete',
-        data: {_id: number}
-      }) .done((res)=>{
-        console.log('성공해써용'); // 브라우저 콘솔창에 나오기
-        event.parent('li').fadeOut();
-        
-        //.parent() = ~의 부모태그를 찾아줘ㅠ 따라서 지금 누른 버튼의 부모태그를 찾아줭 ex ) 현재 버튼 누른 li태그 찾아줘
-        // 내가 지금 누른 버튼의 부모 중 li가 있으면 그거 숨겨줘!
-  
-      }) .fail((res)=>{ // a,b,c 뜻 : xhr,textStatus,errorthrown
-        console.log('실패'); 
-
-
-      });
-      })
-
-      
- 
-
+})
+</script>
 
     
-    
-    </script>
 
    
 
