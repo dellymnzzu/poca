@@ -24,7 +24,7 @@
 
     <h1 style="border-bottom:1px solid gray; ">포카등록</h1>
     
-    <form class="form-horizontal" action="/addwirte" method="post"> 
+    <form class="form-horizontal" action="/addwirte" method="post" enctype="multipart/form-data"> 
 
         <div class="form-group">
           <label >제목</label>
@@ -67,8 +67,18 @@
         
         <div class="form-group">
             <label >설명</label>
-            <input type = "text" class="form-control" name="explanation" placeholder="상품의 하자 등 필요한 정보는 꼭 작성해주세요">
+            <input type = "text" class="form-control" name="explanation" style="height: 100px;" placeholder="상품의 하자 등 필요한 정보는 꼭 작성해주세요">
         </div>
+        <div class="form-group">
+
+          <lavel>이미지 등록</lavel> <br>
+            <input type="file" name="프로필">
+
+        </div>
+
+
+
+
         
         <input type="submit" class="btn btn-outline-secondary"  value="저장하기">
         

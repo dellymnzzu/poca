@@ -59,8 +59,11 @@
                          
                         </td>
                         <th>
+                          <a href="<%='/detail/${posts._id}' %>">
+                            <%= posts[i].제목%>
+                          </a>
                           
-                          <button onclick="location.href='/detail/'+'<%= posts[i]._id %>'" class="titledetail" data-id="<%= posts[i]._id %>"><%= posts[i].제목%></a>
+                          
                           
                         </th>
                         <td><%= posts[i].날짜%></td>
@@ -92,6 +95,8 @@ $('#search').click(function(){
   window.location.replace('/search?value='+입력한값)   // url을 바꿔주세요
   
 })
+
+
 </script>
 
     

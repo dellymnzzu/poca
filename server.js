@@ -34,10 +34,24 @@ console.log(req.body);
 
 
 app.listen(8080);
+
 app.get('/',(req,res)=>{
-console.log('8080번 홈 서버 열림');
-res.render('index.ejs');
-});
+    
+    
+db.collection('content').find().toArray((error,result)=>{
+
+    if(error) {
+        console.log(error);
+    }
+
+    console.log(result);
+    res.render('index.ejs',{Module:result});
+
+})
+})
+
+
+
 
 app.get('/sign_up',(req,res)=>{
 console.log('회원가입 서버 열림');
@@ -215,7 +229,38 @@ app.get('/pocawrite',(req,res)=>{
     res.render('pocawrite.ejs');
 })
 
-app.post('/addwirte',(req,res)=>{
+let multer = require('multer');
+var storage = multer.diskStorage({
+
+  destination : function(req, file, cb){
+    cb(null, './public/image')
+  },
+  filename : function(req, file, cb){
+    cb(null, file.originalname  )       // 파일명을 다이나믹하게 작명하고 싶을때! +'날짜' +new data()
+  },
+  fileFilter: function (req, file, callback) {           // 파일형식(확장자 거르기!)
+    var ext = path.extname(file.originalname);
+    if(ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg') {
+        return callback(new Error('PNG, JPG만 업로드하세요'))
+    }
+    callback(null, true)    
+},
+// limits:{     // 파일 사이즈!
+//     fileSize: 1024 * 1024
+// }
+});
+
+var upload = multer({storage : storage});
+
+app.get('/pocawrite',(req,res)=>{
+    res.render('pocawrite.ejs');
+})
+
+
+
+
+
+app.post('/addwirte',upload.array('프로필',5),(req,res)=>{
     res.send('저장완료되었습니다.');
 
 db.collection('counter').findOne({contentName:'totalNumber'},(error,result)=>{
@@ -242,6 +287,18 @@ app.get('/pocadetail/:id',(req,res)=>{
         res.render('pocadetail.ejs',{contents:result});
     })
     
+})
+
+
+
+app.get('/newmodule/:id',(req,res)=>{
+
+    console.log(req.params.id);
+    db.collection('content').findOne({_id:parseInt(req.params.id)},(error,result)=>{
+        if(error) return console.log('error');
+        console.log(result);
+        res.render('newmodule.ejs',{Module:result});
+    })
 })
 
 
