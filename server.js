@@ -9,11 +9,15 @@ app.use(express.static('views'));
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
-
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
 
 app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session()); 
+
+
+
 
 MongoCilent.connect('mongodb+srv://admin:dlsgud5031@cluster0.7igrfxz.mongodb.net/poca?retryWrites=true&w=majority',(에러,client)=>{
 if(에러) return console.log(에러);
@@ -48,6 +52,16 @@ db.collection('content').find().toArray((error,result)=>{
     res.render('index.ejs',{Module:result});
 
 })
+})
+
+app.get('/newmodule/:id',(req,res)=>{
+
+    console.log(req.params.id);
+    db.collection('content').findOne({_id:parseInt(req.params.id)},(error,result)=>{
+        if(error) return console.log('error');
+        console.log(result);
+        res.render('newmodule.ejs',{Module:result});
+    })
 })
 
 
@@ -153,11 +167,12 @@ db.collection('counter').findOne({name:'총게시물갯수'},(error,result)=>{
 console.log(result.totalPost);
 var 총게시물갯수=result.totalPost;
 
-var 저장할거 = {_id:총게시물갯수+1 ,제목 : req.body.title,날짜 :req.body.data}
+var 저장할거 = {_id:총게시물갯수+1 ,제목 : req.body.title,날짜 :req.body.data,조회수:0}
 
 db.collection('post').insertOne(저장할거,(에러,결과)=>{
     console.log('저장완료');
 db.collection('counter').updateOne({name:'총게시물갯수'},{$inc: {totalPost:1}},()=>{}) // set : 변경, inc : 기존값에 더해줄 값 
+
 });
 });
 
@@ -218,11 +233,32 @@ app.get('/like',(req,res)=>{
 res.render('like.ejs');
 })
 app.get('/new',(req,res)=>{
-res.render('new.ejs');
+    db.collection('content').find().toArray((error,result)=>{
+
+        if(error) {
+            console.log(error);
+        }
+    
+        console.log(result);
+res.render('new.ejs',{Module:result});
+})
 })
 
+
 app.get('/poca',(req,res)=>{
-res.render('poca.ejs');
+    db.collection('content').find().toArray((error,result)=>{
+
+        if(error) {
+            console.log(error);
+        }
+    
+        console.log(result);
+
+      
+
+            res.render('poca.ejs', {Module:result});
+
+        })
 })
 
 app.get('/pocawrite',(req,res)=>{
@@ -291,15 +327,9 @@ app.get('/pocadetail/:id',(req,res)=>{
 
 
 
-app.get('/newmodule/:id',(req,res)=>{
 
-    console.log(req.params.id);
-    db.collection('content').findOne({_id:parseInt(req.params.id)},(error,result)=>{
-        if(error) return console.log('error');
-        console.log(result);
-        res.render('newmodule.ejs',{Module:result});
-    })
-})
+
+
 
 
 

@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="/public/index.css">
+
     <title>BUTTERFIY</title>
   </head>
   <body>
@@ -82,14 +83,14 @@
     
 </div>
 
-<nav class="navbar bg-body-tertiary">
-  <div class="container-fluid-new" style="color:rgb(100, 99, 99);">
-    <span class="navbar-brand mb-3 mt-3 h2">NEW</span>
+<nav class="navbar bg-body-tertiary" >
+  <div class="container-fluid-new" style="color:rgb(100, 99, 99); margin :auto; width: 0;">
+    <span class="navbar-brand mb-3 mt-3 h2" >NEW</span>
   </div>
 </nav>
 
 
-<%- include('newmodule.ejs', {Module:result}) %>
+<%- include('newmodule.ejs', {Module:Module}) %>
 
 
 

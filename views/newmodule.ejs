@@ -1,30 +1,45 @@
 
-    <li id="anchorBoxId_10013" class="xans-record">
+    
+    <li id="anchorBoxId_10013"  style= "list-style: none;"class="xans-record">
       <div class="thumbnail">
         <div class="prdImg">
           <a
-            href="<%='pocadetail/${Module._id}'%>"
-            name="anchorBoxName_10013"><img
-              src=""
+            href="/product/슈슈-사선-랩니트골지슬림핏/10013/category/1/display/3/"
+            name="anchorBoxName_10013"
+            ><img
+              src="//www.fromdayone.co.kr/web/product/medium/202301/cec184152138b3b733744887311e6b52.webp"
               id="eListPrdImage10013_3"
               alt="슈슈 사선 랩니트(골지/슬림핏)"
           /></a>
         </div>
       </div>
+      <% for (var i=0; i<Module.length;i++) { %>
       <div class="description">
-        <strong class="name"><a href="" class="shopImage"><span class="title displaynone">
-            <span style="font-size: 13px; color: #000000; font-weight: bold">
-                <%= Module.제목 %>
+        <strong class="name"style ="display: block; border-bottom: 1px solid #ebebeb; padding-bottom: 6px;">
+          <a href="<%= `/pocadetail/${Module[i]._id}` %>" class="shopImage"><span class="title displaynone">
+            <span style="font-size: 20px; color: #000000; font-weight: bold">
+                <%= Module[i].제목 %>
+
               </span>
             </span></a></strong>
-        <ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec">
+        <ul class="xans-element- xans-product xans-product-listitem-2 xans-product-listitem xans-product-2 spec" style= "list-style: none;">
           <li class="xans-record-">
-            <span style="font-size: 13px; color: #000000">
-                <%= Module.값 %>
+            <span style="font-size: 15px; color: #000000">
+                <%= Module[i].값 %>
             </span>
           </li>
         </ul>
       </div>
+   <% }  %>
     </li>
+
+
+
+    
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+
 
  
