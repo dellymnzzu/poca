@@ -4,20 +4,21 @@
       <div class="thumbnail">
         <div class="prdImg">
           <a
-            href="/product/슈슈-사선-랩니트골지슬림핏/10013/category/1/display/3/"
+            href=""
             name="anchorBoxName_10013"
             ><img
-              src="//www.fromdayone.co.kr/web/product/medium/202301/cec184152138b3b733744887311e6b52.webp"
-              id="eListPrdImage10013_3"
-              alt="슈슈 사선 랩니트(골지/슬림핏)"
+              src=""
+              
+              alt=""
           /></a>
         </div>
       </div>
       <% for (var i=0; i<Module.length;i++) { %>
       <div class="description">
         <strong class="name"style ="display: block; border-bottom: 1px solid #ebebeb; padding-bottom: 6px;">
-          <a href="<%= `/pocadetail/${Module[i]._id}` %>" class="shopImage"><span class="title displaynone">
-            <span style="font-size: 20px; color: #000000; font-weight: bold">
+          <a href="<%= `/pocadetail/${Module[i]._id}` %>" class="hit"  ><span class="title displaynone">
+            <span id="total"> 조회수 : <%= Module[i].조회수 %> </span>
+            <span   style="font-size: 20px; color: #000000; font-weight: bold">
                 <%= Module[i].제목 %>
 
               </span>
@@ -33,10 +34,56 @@
    <% }  %>
     </li>
 
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script>
+      
+      
+
+      
+    $(".hit").on('click',function(){
+    
+
+
+      $.ajax({
+        
+      method : 'GET',  // 서버에 새로고침 없이 get서버 요청할거얌
+       url : '/count',  // 요청 할 경로
+       data: 'total'
+
+        //요청과 함께 보낼 데이터 요청 보낼 때 삭제 할 게시물 번호를 함께 전송함.
+     }) .done((res)=>{
+      console.log(res);
+
+     
+
+
+    }) 
+  }) 
+
+       
+   
+
+      
+
+
+      
+       
+       // 브라우저 콘솔창에 나오기
+       
+ 
+    
+
+
+
+      
+      
+      
+      </script>
+
 
 
     
-
 
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">

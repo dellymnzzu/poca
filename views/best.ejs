@@ -12,9 +12,16 @@
   </head>
   <body>
     <%- include('nav.html') %>
+
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid-new">
+        <span class="navbar-brand mb-3 mt-3 h1" style="color:rgb(100, 99, 99); margin :auto; width: 0;"  >BEST</span>
+      </div>
+    </nav>
     
     
-      <h3 class = "pt-4">베스트 페이지입니다.</h3>
+    <%- include('newmodule.ejs',{Module:Module}) %>
+      
    
 
     <!-- Optional JavaScript; choose one of the two! -->

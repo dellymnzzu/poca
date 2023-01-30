@@ -3,14 +3,12 @@ const express = require('express');
 const app = express();
 app.set('view engine','ejs');
 app.use('/public', express.static('public'));
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended:true}));
 const MongoCilent = require('mongodb').MongoClient;
 app.use(express.static('views'));
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
 
 app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
 app.use(passport.initialize());
@@ -51,6 +49,8 @@ db.collection('content').find().toArray((error,result)=>{
     console.log(result);
     res.render('index.ejs',{Module:result});
 
+
+
 })
 })
 
@@ -61,9 +61,23 @@ app.get('/newmodule/:id',(req,res)=>{
         if(error) return console.log('error');
         console.log(result);
         res.render('newmodule.ejs',{Module:result});
+
     })
 })
 
+app.get('/count',(req,res)=>{
+    console.log(req.body);
+    
+    
+
+    db.collection('content').updateOne({$inc:{조회수:1}},(error,result)=>{
+        
+        console.log(result);
+        
+    })  //요청.body에 담겨온 게시물 번호를 가진 글을 db를 찾아서 삭제해주세요.조회수 1 증가 시켜줄래. 
+console.log(res);
+
+})
 
 
 
@@ -167,7 +181,7 @@ db.collection('counter').findOne({name:'총게시물갯수'},(error,result)=>{
 console.log(result.totalPost);
 var 총게시물갯수=result.totalPost;
 
-var 저장할거 = {_id:총게시물갯수+1 ,제목 : req.body.title,날짜 :req.body.data,조회수:0}
+var 저장할거 = {_id:총게시물갯수+1 ,제목 : req.body.title,날짜 :req.body.data}
 
 db.collection('post').insertOne(저장할거,(에러,결과)=>{
     console.log('저장완료');
@@ -227,11 +241,26 @@ res.render('search.ejs', {posts : result});
 
 
 app.get('/best',(req,res)=>{
-res.render('best.ejs');
+    db.collection('content').find().toArray((error,result)=>{
+
+        if(error) {
+            console.log(error);
+        }
+    
+        console.log(result);
+
+        res.render('best.ejs',{Module:result});
+    db.collection('content').find().sort({"조회수":1})
 })
+})
+
+
+
 app.get('/like',(req,res)=>{
 res.render('like.ejs');
 })
+
+
 app.get('/new',(req,res)=>{
     db.collection('content').find().toArray((error,result)=>{
 
@@ -261,9 +290,6 @@ app.get('/poca',(req,res)=>{
         })
 })
 
-app.get('/pocawrite',(req,res)=>{
-    res.render('pocawrite.ejs');
-})
 
 let multer = require('multer');
 var storage = multer.diskStorage({
@@ -272,7 +298,7 @@ var storage = multer.diskStorage({
     cb(null, './public/image')
   },
   filename : function(req, file, cb){
-    cb(null, file.originalname  )       // 파일명을 다이나믹하게 작명하고 싶을때! +'날짜' +new data()
+    cb(null, file.originalname  +"-"+Date.now() );      // 파일명을 다이나믹하게 작명하고 싶을때! +'날짜' +new data()
   },
   fileFilter: function (req, file, callback) {           // 파일형식(확장자 거르기!)
     var ext = path.extname(file.originalname);
@@ -295,23 +321,24 @@ app.get('/pocawrite',(req,res)=>{
 
 
 
+app.post('/addwirte',upload.single('picture'),(req,res)=>{
+    res.send('저장완료');
 
-app.post('/addwirte',upload.array('프로필',5),(req,res)=>{
-    res.send('저장완료되었습니다.');
-
-db.collection('counter').findOne({contentName:'totalNumber'},(error,result)=>{
-console.log(result.totalContent);
-var totalnumber=result.totalContent;
-
-var save = {_id:totalnumber+1 ,제목 : req.body.pocatitle,  대분류:req.body.group, 중분류:req.body.issue, 소분류 : req.body.detail,값 :req.body.price,설명:req.body.explanation}
-
-db.collection('content').insertOne(save,(error,result)=>{
-    console.log('저장완료');
-db.collection('counter').updateOne({name:'totalnumber'},{$inc: {totalContent:1}},()=>{}) 
-});
-});
-
-});
+    db.collection('counter').findOne({contentName:'totalNumber'},(error,result)=>{
+        console.log(result.totalContent);
+        var totalNumber=result.totalContent;
+        
+        var save = {_id:totalNumber+1 ,제목 : req.body.pocatitle, 대분류 : req.body.group, 중분류 : req.body.issue, 소분류 : req.body.detail, 값 : req.body.price, 설명 : req.body.explanation, 조회수 : 0}
+        
+        db.collection('content').insertOne(save,(에러,결과)=>{
+            console.log('저장');
+        db.collection('counter').updateOne({contentName:'totalNumber'},{$inc: {totalContent:1}},()=>{}) // set : 변경, inc : 기존값에 더해줄 값 
+        
+        });
+        });
+        
+        });
+        
 
 
 
@@ -322,7 +349,6 @@ app.get('/pocadetail/:id',(req,res)=>{
         console.log(result);
         res.render('pocadetail.ejs',{contents:result});
     })
-    
 })
 
 
