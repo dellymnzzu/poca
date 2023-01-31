@@ -65,20 +65,6 @@ app.get('/newmodule/:id',(req,res)=>{
     })
 })
 
-app.get('/count',(req,res)=>{
-    console.log(req.body);
-    
-    
-
-    db.collection('content').updateOne({$inc:{조회수:1}},(error,result)=>{
-        
-        console.log(result);
-        
-    })  //요청.body에 담겨온 게시물 번호를 가진 글을 db를 찾아서 삭제해주세요.조회수 1 증가 시켜줄래. 
-console.log(res);
-
-})
-
 
 
 app.get('/sign_up',(req,res)=>{
@@ -241,7 +227,7 @@ res.render('search.ejs', {posts : result});
 
 
 app.get('/best',(req,res)=>{
-    db.collection('content').find().toArray((error,result)=>{
+    db.collection('content').find().sort({"조회수":-1}).toArray((error,result)=>{
 
         if(error) {
             console.log(error);
@@ -250,7 +236,6 @@ app.get('/best',(req,res)=>{
         console.log(result);
 
         res.render('best.ejs',{Module:result});
-    db.collection('content').find().sort({"조회수":1})
 })
 })
 
@@ -262,7 +247,7 @@ res.render('like.ejs');
 
 
 app.get('/new',(req,res)=>{
-    db.collection('content').find().toArray((error,result)=>{
+    db.collection('content').find().sort({"시간":-1}).toArray((error,result)=>{
 
         if(error) {
             console.log(error);
@@ -328,10 +313,10 @@ app.post('/addwirte',upload.single('picture'),(req,res)=>{
         console.log(result.totalContent);
         var totalNumber=result.totalContent;
         
-        var save = {_id:totalNumber+1 ,제목 : req.body.pocatitle, 대분류 : req.body.group, 중분류 : req.body.issue, 소분류 : req.body.detail, 값 : req.body.price, 설명 : req.body.explanation, 조회수 : 0}
+        var save = {_id:totalNumber+1 ,제목 : req.body.pocatitle, 대분류 : req.body.group, 중분류 : req.body.issue, 소분류 : req.body.detail, 값 : req.body.price, 설명 : req.body.explanation, 조회수 : 0,시간: new Date()}
         
         db.collection('content').insertOne(save,(에러,결과)=>{
-            console.log('저장');
+           
         db.collection('counter').updateOne({contentName:'totalNumber'},{$inc: {totalContent:1}},()=>{}) // set : 변경, inc : 기존값에 더해줄 값 
         
         });
@@ -345,8 +330,11 @@ app.post('/addwirte',upload.single('picture'),(req,res)=>{
 
 app.get('/pocadetail/:id',(req,res)=>{
     db.collection('content').findOne({_id:parseInt(req.params.id)},(error,result)=>{
-        if(error) return console.log('error');
-        console.log(result);
+        if(error) return console.log("findOnde Error : "+error);
+
+        db.collection('content').updateOne({_id:parseInt(req.params.id)},{$inc:{조회수:1}});
+
+        // console.log(result);
         res.render('pocadetail.ejs',{contents:result});
     })
 })
