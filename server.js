@@ -26,7 +26,7 @@ app.post('/sign',(req,res)=>{
 res.send('저장완료되었습니다.')
 
 
-db.collection('login').insertOne({ id : req.body.id,pw :req.body.pw,name:req.body.name },(에러,결과)=>{
+db.collection('login').insertOne({ id : req.body.id,pw :req.body.pw,name:req.body.name,Email:req.body.Email},(에러,결과)=>{
 console.log(req.body);
 })
 })
@@ -40,7 +40,7 @@ app.listen(8080);
 app.get('/',(req,res)=>{
     
     
-db.collection('content').find().toArray((error,result)=>{
+db.collection('content').find().sort({"시간":-1}).toArray((error,result)=>{
 
     if(error) {
         console.log(error);
@@ -223,6 +223,10 @@ res.render('search.ejs', {posts : result});
 
 })
 
+})
+
+app.get('/scam',(req,res)=>{
+    res.render('scam.ejs');
 })
 
 

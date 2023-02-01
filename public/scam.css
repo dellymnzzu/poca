@@ -1,0 +1,56 @@
+.text1{
+    border-bottom:1px solid gray; 
+    padding: 20px 0px;
+    font-size: 25px;
+    font-weight: inherit;
+    font-style: rgba(71, 70, 70, 0.849);
+
+}
+p{
+    margin-bottom : 0;
+
+    
+}
+.navText{
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+.choiceScam{
+    height: 45px;
+    border: solid 1px #d9d9d9;
+    border-radius:5px;
+    background:#fff;
+    color: rgba(0, 0, 0, 0.89);
+    line-height: 66px;
+    transition: all 0.3s ease;
+    box-shadow:none;
+    background:#fff;
+    width : 85%;
+}
+
+.input_box1{
+    width:79%;
+    margin-top:10px;
+    height: 45px;
+    border: solid 1px #d9d9d9;
+    border-radius:5px;
+    box-shadow:none;
+    background:#fff;
+
+
+
+
+}
+
+.scam{
+    margin: 0 30px;
+}
+
+#Inquire{
+    margin-left:9px;
+    width: 5%;
+    height:44px;
+    
+}
+
