@@ -22,7 +22,7 @@
 <section class="py-5">
 <div class="container px-4 px-lg-5 my-5">
 <div class="row gx-4 gx-lg-5 align-items-center" >
-    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="<%= `/public/image/${contents.이미지}` %>" alt="<%= contents.이미지 %>" /></div>
     <div class="col-md-6">
         <div class="small mb-1"><%= contents.대분류 %> / <%= contents.중분류 %> / <%= contents.소분류 %></div>
         <h1 class="display-5 fw-bolder"><%= contents.제목 %> <%= contents.조회수 %></h1>
@@ -48,7 +48,9 @@
         
     </div>
     <div class = information>
-        <h4>가게 정보</h4>
+        <h4>판매자 정보</h4>
+        <a><%= contents.작성자 %></a>
+        
         
         
         

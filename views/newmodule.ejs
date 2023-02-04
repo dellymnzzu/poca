@@ -1,21 +1,21 @@
 
 
 
+      <% for (var i=0; i<Module.length;i++) { %>
     
     <li id="anchorBoxId_10013"  style= "list-style: none;"class="xans-record">
       <div class="thumbnail">
         <div class="prdImg">
           <a
-            href=""
+            href="<%= `/pocadetail/${Module[i]._id}` %>"
             name="anchorBoxName_10013"
             ><img
-              src=""
+              src="<%= `/public/image/${Module[i].이미지}` %>"
               
-              alt=""
+              alt="<%= Module[i].이미지 %>"
           /></a>
         </div>
       </div>
-      <% for (var i=0; i<Module.length;i++) { %>
       <div class="description">
         <strong class="name"style ="display: block; border-bottom: 1px solid #ebebeb; padding-bottom: 6px;">
           <a href="<%= `/pocadetail/${Module[i]._id}` %>" class="hit" data-id = "<%= Module[i]._id %>" ><span class="title displaynone">

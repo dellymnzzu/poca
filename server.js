@@ -93,11 +93,11 @@ passReqToCallback: false,
 db.collection('login').findOne({ id: 입력한아이디 }, function (에러, 결과) {
 if (에러) return done(에러)
 
-if (!결과) return done(null, false, { message: '존재하지않는 아이디요' })
+if (!결과) return done(null, false, { message: '존재하지않는 아이디입니다.' })
 if (입력한비번 == 결과.pw) {
 return done(null, 결과)
 } else {
-return done(null, false, { message: '비번틀렸어요' })
+return done(null, false, { message: '다시 입력바랍니다.' })
 }
 })
 }));
@@ -135,12 +135,10 @@ if(req.user)
 next();
 } 
 else{
-
+   
 res.render('login.ejs');
+
 }
-
-
-
 }
 
 
@@ -284,10 +282,10 @@ let multer = require('multer');
 var storage = multer.diskStorage({
 
   destination : function(req, file, cb){
-    cb(null, './public/image')
+    cb(null, './public/image');
   },
   filename : function(req, file, cb){
-    cb(null, file.originalname  +"-"+Date.now() );      // 파일명을 다이나믹하게 작명하고 싶을때! +'날짜' +new data()
+    cb(null, file.originalname );      // 파일명을 다이나믹하게 작명하고 싶을때! +'날짜' +new data()
   },
   fileFilter: function (req, file, callback) {           // 파일형식(확장자 거르기!)
     var ext = path.extname(file.originalname);
@@ -295,7 +293,7 @@ var storage = multer.diskStorage({
         return callback(new Error('PNG, JPG만 업로드하세요'))
     }
     callback(null, true)    
-},
+}
 // limits:{     // 파일 사이즈!
 //     fileSize: 1024 * 1024
 // }
@@ -303,7 +301,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage : storage});
 
-app.get('/pocawrite',(req,res)=>{
+app.get('/pocawrite',로그인했니,(req,res)=>{
     res.render('pocawrite.ejs');
 })
 
@@ -314,12 +312,21 @@ app.post('/addwirte',upload.single('picture'),(req,res)=>{
     res.send('저장완료');
 
     db.collection('counter').findOne({contentName:'totalNumber'},(error,result)=>{
+        
+        console.log(req.file);
         console.log(result.totalContent);
         var totalNumber=result.totalContent;
         
-        var save = {_id:totalNumber+1 ,제목 : req.body.pocatitle, 대분류 : req.body.group, 중분류 : req.body.issue, 소분류 : req.body.detail, 값 : req.body.price, 설명 : req.body.explanation, 조회수 : 0,시간: new Date()}
+        var save = {_id:totalNumber+1 ,id:req.user._id,작성자: req.user.id,제목 : req.body.pocatitle, 대분류 : req.body.group, 
+            중분류 : req.body.issue, 소분류 : req.body.detail, 값 : req.body.price, 설명 : req.body.explanation, 
+            조회수 : 0,시간: new Date(),이미지:req.file.originalname}
         
         db.collection('content').insertOne(save,(에러,결과)=>{
+           
+            
+            
+
+            
            
         db.collection('counter').updateOne({contentName:'totalNumber'},{$inc: {totalContent:1}},()=>{}) // set : 변경, inc : 기존값에 더해줄 값 
         
