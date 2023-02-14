@@ -24,7 +24,7 @@
 <div class="row gx-4 gx-lg-5 align-items-center" >
     <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="<%= `/public/image/${contents.이미지}` %>" alt="<%= contents.이미지 %>" /></div>
     <div class="col-md-6">
-        <div class="small mb-1"><%= contents.대분류 %> / <%= contents.중분류 %> / <%= contents.소분류 %></div>
+        <div class="small mb-1"><%= contents.대분류 %> / <%= contents.middle %> / <%= contents.소분류 %></div>
         <h1 class="display-5 fw-bolder"><%= contents.제목 %> <%= contents.조회수 %></h1>
         <div class="fs-5 mb-5">
             <h1 class="text-decoration-line-through" style="color:brown;"><%= contents.값 %>원</h1>
@@ -33,8 +33,13 @@
         <div class="d-flex">
             
             <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                <i class="bi-cart-fill me-1"></i>
-                Add to cart
+                <i class="bi bi-chat-square-dots-fill"></i>
+                1:1대화
+            </button>
+            <button class="btn btn-outline-dark flex-shrink-0" id="like" type="button">
+                <i class="bi bi-suit-heart-fill"></i>
+                찜 <%= contents.like %>
+                
             </button>
 
         </div>
@@ -58,6 +63,10 @@
     
 </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+
 
 <!-- Optional JavaScript; choose one of the two! -->
 

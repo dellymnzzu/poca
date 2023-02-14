@@ -16,50 +16,20 @@
     <%- include('nav.html') %>
     
     
-      
+      <ul class="nav justify-content-center">
 
-    <ul class="nav justify-content-center">
+        <% for (var i=0; i<category.length;i++) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="<%= `/poca/${category[i].middle}` %>"><%= category[i].middle%></a>
+            
+          </li>
+          <% } %> 
+        </ul>
+
         
-        <li class="nav-item">
-          <a class="nav-link" href="#">소녀시대</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">샤이니</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">엑소</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">BTS</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">스트레이키즈</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">NCT</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">더보이즈</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">세븐틴</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">아이브</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">르세라핌</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">뉴진스</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">스테이씨</a>
-        </li>
-      </ul>
 
 
-      <%- include('newmodule.ejs',{Module:Module}) %>
+      <%- include('newmodule.ejs',{Module:poca}) %>
 
     
 

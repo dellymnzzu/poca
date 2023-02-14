@@ -10,6 +10,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 
+
+
 app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session()); 
@@ -165,7 +167,7 @@ db.collection('counter').findOne({name:'총게시물갯수'},(error,result)=>{
 console.log(result.totalPost);
 var 총게시물갯수=result.totalPost;
 
-var 저장할거 = {_id:총게시물갯수+1 ,제목 : req.body.title,날짜 :req.body.data}
+var 저장할거 = {_id:총게시물갯수+1,id:req.user._id,작성자: req.user.id ,제목 : req.body.title, 내용 :req.body.data,시간:new Date()}
 
 db.collection('post').insertOne(저장할거,(에러,결과)=>{
     console.log('저장완료');
@@ -178,7 +180,7 @@ db.collection('counter').updateOne({name:'총게시물갯수'},{$inc: {totalPost
 
 app.get('/qna',(req,res)=>{
 
-db.collection('post').find().toArray(function(에러,결과){
+db.collection('post').find().sort({"시간":-1}).toArray(function(에러,결과){
 console.log(결과);
 res.render('qna.ejs',{posts:결과});
 
@@ -191,10 +193,16 @@ app.get('/detail/:id',(req,res)=>{
 
 
 db.collection('post').findOne({_id:parseInt(req.params.id)},(error,result)=>{
-if(error) return console.log('error');
-console.log(result);
-res.render('detail.ejs',{data:result});
+
+
+db.collection('comment').find({글번호:req.params.id}).toArray((error,result2)=>{
+    
+    res.render('detail.ejs',{data:result,commentdata:result2});
+    console.log(result);
+
 })
+})
+
 })
 
 app.get('/search',(req,res)=>{
@@ -223,6 +231,24 @@ res.render('search.ejs', {posts : result});
 
 })
 
+app.post('/comment',로그인했니,(req,res)=>{
+    
+    var 저장= {댓글 : req.body.comment ,댓글작성자: req.body.commentwriter,
+        글번호: req.body.parentnumber}
+    db.collection('comment').insertOne(저장,(error,result)=>{
+        
+        console.log('저장완료');
+        res.render('detail.ejs',{data:result});
+    
+
+        
+
+    
+    })
+})
+  
+
+
 app.get('/scam',(req,res)=>{
     res.render('scam.ejs');
 })
@@ -243,8 +269,8 @@ app.get('/best',(req,res)=>{
 
 
 
-app.get('/like',(req,res)=>{
-res.render('like.ejs');
+app.get('bestLike',(req,res)=>{
+res.render('bestLike.ejs');
 })
 
 
@@ -263,22 +289,46 @@ res.render('new.ejs',{Module:result});
 
 app.get('/poca',(req,res)=>{
     db.collection('content').find().toArray((error,result)=>{
+        db.collection('content').find({제목:null}).toArray((error,result2)=>{
 
-        if(error) {
-            console.log(error);
-        }
+            if(error) {
+                console.log(error);
+            }
+        
+          
     
-        console.log(result);
+                res.render('poca.ejs', {poca:result,category:result2});
+        })
 
-      
-
-            res.render('poca.ejs', {Module:result});
 
         })
 })
 
+app.get('/poca/:middle',(req,res)=>{
+    var value = {middle : req.params.middle};
+    
+    db.collection('content').find({제목:null}).toArray((error,result)=>{ //req,res가 들어가있으면 연관성이 있지만, req,res가 들어가있지 않아서 얘는 다른 걸 요청한거. 즉 들어오는 값이 달라도 나가는 값은 동일한 애 
+
+        db.collection('content').find(value).toArray((error,result2)=>{
+
+            if(error) {
+                console.log(error);
+            }
+        
+    
+          
+    
+                res.render('poca.ejs', {poca:result2,category:result}); //변수 여러개 줘도 상관 없음, result==category
+    
+    
+            })
+    
+    }) //제목 없이 글쓰기 금지
+})
+
 
 let multer = require('multer');
+const { ObjectId } = require('mongodb');
 var storage = multer.diskStorage({
 
   destination : function(req, file, cb){
@@ -318,8 +368,8 @@ app.post('/addwirte',upload.single('picture'),(req,res)=>{
         var totalNumber=result.totalContent;
         
         var save = {_id:totalNumber+1 ,id:req.user._id,작성자: req.user.id,제목 : req.body.pocatitle, 대분류 : req.body.group, 
-            중분류 : req.body.issue, 소분류 : req.body.detail, 값 : req.body.price, 설명 : req.body.explanation, 
-            조회수 : 0,시간: new Date(),이미지:req.file.originalname}
+            middle : req.body.issue, 소분류 : req.body.detail, 값 : req.body.price, 설명 : req.body.explanation, 
+            조회수 : 0,시간: new Date(),이미지:req.file?.originalname?req.file.originalname:null}
         
         db.collection('content').insertOne(save,(에러,결과)=>{
            
@@ -348,6 +398,14 @@ app.get('/pocadetail/:id',(req,res)=>{
         // console.log(result);
         res.render('pocadetail.ejs',{contents:result});
     })
+})
+
+app.post('/like',(req,res)=>{
+    var 저장 = {id:req.user._id,작성자: req.user.id_}
+    db.collection('like').insertOne(저장,(error,result)=>{
+
+    })
+
 })
 
 
