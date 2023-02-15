@@ -181,7 +181,6 @@ db.collection('counter').updateOne({name:'총게시물갯수'},{$inc: {totalPost
 app.get('/qna',(req,res)=>{
 
 db.collection('post').find().sort({"시간":-1}).toArray(function(에러,결과){
-console.log(결과);
 res.render('qna.ejs',{posts:결과});
 
 })
@@ -189,22 +188,34 @@ res.render('qna.ejs',{posts:결과});
 
 
 
-app.get('/detail/:id',(req,res)=>{
+app.get('/detail/:id',로그인했니,(req,res)=>{
 
 
 db.collection('post').findOne({_id:parseInt(req.params.id)},(error,result)=>{
 
-
-db.collection('comment').find({글번호:req.params.id}).toArray((error,result2)=>{
+db.collection('comment').find({글번호:req.params.id}).sort({"시간":-1}).toArray((error,result2)=>{
     
-    res.render('detail.ejs',{data:result,commentdata:result2});
-    console.log(result);
-
+    
+    res.render('detail.ejs',{data:result,commentdata:result2,dataid:req.user});
 })
 })
 
 })
 
+
+app.post('/comment',로그인했니,(req,res)=>{
+    var 저장= {댓글 : req.body.comment,글번호 : req.body.parentnumber ,댓글작성자: req.user.id, 시간: new Date()}
+    db.collection('comment').insertOne(저장,(error,result)=>{
+        
+        console.log('저장완료');
+        res.render('detail.ejs',{commentdata:result});
+    
+
+        
+
+    
+    })
+})  
 app.get('/search',(req,res)=>{
 var 검색조건 = [
 {
@@ -229,22 +240,6 @@ res.render('search.ejs', {posts : result});
 
 })
 
-})
-
-app.post('/comment',로그인했니,(req,res)=>{
-    
-    var 저장= {댓글 : req.body.comment ,댓글작성자: req.body.commentwriter,
-        글번호: req.body.parentnumber}
-    db.collection('comment').insertOne(저장,(error,result)=>{
-        
-        console.log('저장완료');
-        res.render('detail.ejs',{data:result});
-    
-
-        
-
-    
-    })
 })
   
 

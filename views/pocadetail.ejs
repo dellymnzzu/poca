@@ -36,7 +36,7 @@
                 <i class="bi bi-chat-square-dots-fill"></i>
                 1:1대화
             </button>
-            <button class="btn btn-outline-dark flex-shrink-0" id="like" type="button">
+            <button class="btn btn-outline-dark flex-shrink-0" id="like" data-id="<%= contents.작성자 %>" type="button">
                 <i class="bi bi-suit-heart-fill"></i>
                 찜 <%= contents.like %>
                 
@@ -66,7 +66,27 @@
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
+<script>
 
+// $('.chat').click(function(e){
+  
+ 
+//   }).done(function(결과){
+    
+//   }).fail(function(에러){
+   
+//   });
+
+$('#like').click(function(e){
+    var _id = e.target.dataset.id;
+    $.post('/chatroom', {})
+ 
+  }).done(function(결과){
+    
+   
+  });
+
+</script>
 
 <!-- Optional JavaScript; choose one of the two! -->
 
