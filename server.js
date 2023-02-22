@@ -1,6 +1,9 @@
 
 const express = require('express');
 const app = express();
+
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 app.set('view engine','ejs');
 app.use('/public', express.static('public'));
 app.use(express.urlencoded({extended:true}));
@@ -37,7 +40,7 @@ console.log(req.body);
 
 
 
-app.listen(8080);
+http.listen(8080);
 
 app.get('/',(req,res)=>{
     
@@ -396,12 +399,45 @@ app.get('/pocadetail/:id',(req,res)=>{
 })
 
 app.post('/like',(req,res)=>{
-    var 저장 = {id:req.user._id,작성자: req.user.id_}
+    var 저장 = {id:req.user._id,작성자: req.user.id}
     db.collection('like').insertOne(저장,(error,result)=>{
 
     })
 
 })
+
+app.get('/chat/:id', 로그인했니, function(요청, 응답){
+    db.collection('content').findOne({ _id : parseInt(요청.params.id)}, function(에러, 결과){
+    응답.render('chat.ejs', { data:결과, name : 요청.user })
+     })
+     db.collection('chat').findOne({id:요청.params.id},(error,result)=>{
+
+     })
+     })
+    io.on('connection', function(socket){
+    console.log('유저 접속됨')
+    socket.on('room1-send', function(data){
+        io.to('room1').emit('broadcast', data)
+        var 저장 = {댓글: data,시간: new Date(),작성자:socket.id, }
+        db.collection('chat').insertOne(저장,(error,result=>{
+            console.log(result);
+        }))
+  
+     })
+    socket.on('room1', function(name){
+    io.to('room1').emit('broadcast', name)
+    })
+    socket.on('joinroom', function(data){
+    socket.join('room1')
+     })
+    socket.on('user-send', function(data){
+    io.to(socket.id).emit('broadcast', data)
+})
+    
+     })
+
+
+
 
 
 
