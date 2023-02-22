@@ -2,8 +2,6 @@
 const express = require('express');
 const app = express();
 
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
 app.set('view engine','ejs');
 app.use('/public', express.static('public'));
 app.use(express.urlencoded({extended:true}));
@@ -40,7 +38,7 @@ console.log(req.body);
 
 
 
-http.listen(8080);
+app.listen(8080);
 
 app.get('/',(req,res)=>{
     
@@ -389,8 +387,6 @@ app.post('/addwirte',upload.single('picture'),(req,res)=>{
 
 app.get('/pocadetail/:id',(req,res)=>{
     db.collection('content').findOne({_id:parseInt(req.params.id)},(error,result)=>{
-        if(error) return console.log("findOnde Error : "+error);
-
         db.collection('content').updateOne({_id:parseInt(req.params.id)},{$inc:{조회수:1}});
 
         // console.log(result);
@@ -399,11 +395,31 @@ app.get('/pocadetail/:id',(req,res)=>{
 })
 
 app.post('/like',(req,res)=>{
-    var 저장 = {id:req.user._id,작성자: req.user.id}
-    db.collection('like').insertOne(저장,(error,result)=>{
+    var Data=req.body;
+    var data = {id:req.user.id};
+    var json = JSON.stringify(Data);
+    var json1 = JSON.stringify(data);
 
-    })
 
+    console.log(json1);
+   
+    
+        
+        console.log(json);
+        if(!req.user){
+            console.log('로그인하세요')
+            res.render('login.ejs');
+        }
+        else if(json!==json1){   
+        var 저장 = {게시물번호:req.body.게시물번호,찜아이디: req.user.id,시간:new Date(),좋아요수:0}
+        db.collection('like').insertOne(저장).then((result)=>{
+            console.log(result);
+    
+        })
+    }
+        else if(json===json1){
+            console.log('자신의 게시물에는 좋아요를 누를 수 없음');
+        }
 })
 
 app.get('/chat/:id', 로그인했니, function(요청, 응답){
@@ -414,28 +430,7 @@ app.get('/chat/:id', 로그인했니, function(요청, 응답){
 
      })
      })
-    io.on('connection', function(socket){
-    console.log('유저 접속됨')
-    socket.on('room1-send', function(data){
-        io.to('room1').emit('broadcast', data)
-        var 저장 = {댓글: data,시간: new Date(),작성자:socket.id, }
-        db.collection('chat').insertOne(저장,(error,result=>{
-            console.log(result);
-        }))
-  
-     })
-    socket.on('room1', function(name){
-    io.to('room1').emit('broadcast', name)
-    })
-    socket.on('joinroom', function(data){
-    socket.join('room1')
-     })
-    socket.on('user-send', function(data){
-    io.to(socket.id).emit('broadcast', data)
-})
-    
-     })
-
+   
 
 
 
