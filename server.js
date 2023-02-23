@@ -209,7 +209,10 @@ app.post('/comment',로그인했니,(req,res)=>{
     db.collection('comment').insertOne(저장,(error,result)=>{
         
         console.log('저장완료');
-        res.render('detail.ejs',{commentdata:result});
+
+        
+        // res.render('detail.ejs',{commentdata:result,data:result,dataid:req.user});
+        res.send('<script>window.location="/detail/'+ req.body.parentnumber+'"</script>')   
     
 
         
@@ -395,32 +398,35 @@ app.get('/pocadetail/:id',(req,res)=>{
 })
 
 app.post('/like',(req,res)=>{
-    var Data=req.body;
-    var data = {id:req.user.id};
+    var Data=req.body; // 글 작성자 아이디
+    var data = {id:req.user.id}; // 로그인 한 아이디
     var json = JSON.stringify(Data);
     var json1 = JSON.stringify(data);
-
-
-    console.log(json1);
-   
-    
+        if(!req.user){  //로그인 안됨
+           return res.render('login.ejs');
+        } // 리턴을 사용하면 끝나는 부분
         
-        console.log(json);
-        if(!req.user){
-            console.log('로그인하세요')
-            res.render('login.ejs');
-        }
-        else if(json!==json1){   
-        var 저장 = {게시물번호:req.body.게시물번호,찜아이디: req.user.id,시간:new Date(),좋아요수:0}
-        db.collection('like').insertOne(저장).then((result)=>{
-            console.log(result);
-    
-        })
-    }
-        else if(json===json1){
+        
+        if(json===json1){
             console.log('자신의 게시물에는 좋아요를 누를 수 없음');
         }
+        else{
+            db.collection('like').findOne({찜아이디:req.user.id,게시물번호:req.body.num},(error,result)=>{
+                if(result){ // result가 참일때 이렇게 쓰면 조음
+                db.collection('like').deleteOne({찜아이디:req.user.id})
+                }
+                else{
+                    var 저장 = {게시물번호:req.body.num,찜아이디: req.user.id,시간:new Date()}
+                    console.log(저장);
+                    db.collection('like').insertOne(저장)  //늦게 동작해도 상관 없으면 괜찬, 아니면 방법 생각
+                }
+                    
+                
+        
+            })
+        }      
 })
+
 
 app.get('/chat/:id', 로그인했니, function(요청, 응답){
     db.collection('content').findOne({ _id : parseInt(요청.params.id)}, function(에러, 결과){

@@ -72,17 +72,19 @@
 
 $('#like').click(function(e){
     var Data = e.target.dataset.id;
+    var href= document.location.href;
+    var num= document.location.pathname;
+    num=num[12];
+    console.log(num); // 이렇게 할 때 num이 20일 때 20이 출력될지
+
    
-    $.post('/like',{id:Data},{게시물번호:contents._id}).then(()=>{
+    $.post('/like',{id:Data,num:num}).then(()=>{
         console.log('성공')
 
 
 
     })
- 
 
-    
-   
   });
   
 
