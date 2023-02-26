@@ -13,6 +13,7 @@ const session = require('express-session');
 
 
 
+
 app.use(session({secret : '비밀코드', resave : true, saveUninitialized: false}));
 app.use(passport.initialize());
 app.use(passport.session()); 
@@ -396,7 +397,7 @@ app.get('/pocadetail/:id',(req,res)=>{
         res.render('pocadetail.ejs',{contents:result});
     })
 })
-
+//찜 구현
 app.post('/like',(req,res)=>{
     var Data=req.body; // 글 작성자 아이디
     var data = {id:req.user.id}; // 로그인 한 아이디
@@ -417,26 +418,73 @@ app.post('/like',(req,res)=>{
                 }
                 else{
                     var 저장 = {게시물번호:req.body.num,찜아이디: req.user.id,시간:new Date()}
-                    console.log(저장);
                     db.collection('like').insertOne(저장)  //늦게 동작해도 상관 없으면 괜찬, 아니면 방법 생각
                 }
-                    
-                
-        
+
             })
         }      
 })
 
 
-app.get('/chat/:id', 로그인했니, function(요청, 응답){
-    db.collection('content').findOne({ _id : parseInt(요청.params.id)}, function(에러, 결과){
-    응답.render('chat.ejs', { data:결과, name : 요청.user })
-     })
-     db.collection('chat').findOne({id:요청.params.id},(error,result)=>{
 
-     })
-     })
-   
+
+app.post('/chatroom',로그인했니,(req,res)=>{
+    var save = {
+        title : req.body.당한사람,
+        member : [ObjectId(req.body.당한사람id), req.user._id],
+        date : new Date()
+      }
+    
+      db.collection('chatroom').insertOne(save).then((result)=>{
+          res.send('저장완료')
+      });
+})
+
+app.get('/chat',로그인했니,(req,res)=>{
+    db.collection('chatroom').find({member : req.user._id}).toArray().then((result)=>{ // member -> 현재 로그인한 유저의 _id
+
+        res.render('chat.ejs',{data:result});
+    })
+})
+
+app.post('/message',로그인했니,(req,res)=>{
+    var save = {
+        parent : req.body.parent,
+        content :req.body.content,
+        userid: req.user._id,
+        date : new Date(),
+    }
+
+    db.collection('message').insertOne(save)
+});
+
+//실시간 서버 소통 채널
+app.get('/message/:parentid', 로그인했니, function(request, response){
+    response.writeHead(200, {
+      "Connection": "keep-alive",
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+    });
+  
+    db.collection('message').find({ parent: request.params.parentid }).toArray()
+    .then((result)=>{
+      console.log(result);
+      response.write('event: test\n');
+      response.write(`data: ${JSON.stringify(result)}\n\n`);
+    });
+  
+    const findDocu = [
+      { $match: { 'fullDocument.parent': request.params.parentid } }
+    ];
+    const changeStream = db.collection('message').watch(findDocu);
+    changeStream.on('change', result => {
+      var addDocu = [result.fullDocument];
+      console.log(addDocu);
+      response.write('event: test\n');
+      response.write(`data: ${JSON.stringify(addDocu)}\n\n`);
+    });
+  });
+
 
 
 

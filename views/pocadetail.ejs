@@ -32,13 +32,13 @@
         </div>
         <div class="d-flex">
             
-            <button class="btn btn-outline-dark flex-shrink-0" onclick="location.href='/chat/:id'" type="button">
+            <button class="btn btn-outline-dark flex-shrink-0" id="chat" data-id="<%= contents.작성자 %>" type="button">
                 <i class="bi bi-chat-square-dots-fill"></i>
                 1:1대화 
             </button>
             <button class="btn btn-outline-dark flex-shrink-0" id="like" data-id="<%= contents.작성자 %>" type="button">
                 <i class="bi bi-suit-heart-fill"></i>
-                찜 <%= contents.like %>
+                찜 
                 
             </button>
 
@@ -68,28 +68,36 @@
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
-
-
-$('#like').click(function(e){
-    var Data = e.target.dataset.id;
-    var href= document.location.href;
-    var num= document.location.pathname;
-    num=num[12];
-    console.log(num); // 이렇게 할 때 num이 20일 때 20이 출력될지
-
-   
-    $.post('/like',{id:Data,num:num}).then(()=>{
-        console.log('성공')
-
-
-
-    })
-
-  });
-  
-
-
-
+    
+    $('#chat').click(function(e){
+        var id = e.target.dataset.id;
+        
+        $.post('/chatroom', {당한사람id : id})
+        });
+    
+    
+    
+    
+    $('#like').click(function(e){
+        var Data = e.target.dataset.id;
+        var href= document.location.href;
+        var num= document.location.pathname;
+        num=num[12];
+        console.log(num); // 이렇게 할 때 num이 20일 때 20이 출력될지, 더 좋은 방법이 없는지 
+        
+        
+        $.post('/like',{id:Data,num:num}).then(()=>{
+            console.log('성공')
+            
+            
+            
+        })
+        
+    });
+    
+    
+    
+    
 
 </script>
 
