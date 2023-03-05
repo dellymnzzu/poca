@@ -14,6 +14,8 @@
 
     <%- include('nav.html') %>
 
+
+
     
 </div>
 </div>
@@ -25,20 +27,20 @@
     <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="<%= `/public/image/${contents.이미지}` %>" alt="<%= contents.이미지 %>" /></div>
     <div class="col-md-6">
         <div class="small mb-1"><%= contents.대분류 %> / <%= contents.middle %> / <%= contents.소분류 %></div>
-        <h1 class="display-5 fw-bolder"><%= contents.제목 %> <%= contents.조회수 %></h1>
+        <h1 class="display-5 fw-bolder" id = "content"data-id = "<%= contents._id %>"><%= contents.제목 %> <%= contents.조회수 %></h1>
         <div class="fs-5 mb-5">
             <h1 class="text-decoration-line-through" style="color:brown;"><%= contents.값 %>원</h1>
             
         </div>
         <div class="d-flex">
             
-            <button class="btn btn-outline-dark flex-shrink-0" id="chat" data-id="<%= contents.작성자 %>" type="button">
+            <button class="btn btn-outline-dark flex-shrink-0" id="chat" data-id="<%= contents.id %>" type="button">
                 <i class="bi bi-chat-square-dots-fill"></i>
                 1:1대화 
             </button>
             <button class="btn btn-outline-dark flex-shrink-0" id="like" data-id="<%= contents.작성자 %>" type="button">
-                <i class="bi bi-suit-heart-fill"></i>
-                찜 
+                <i class="bi bi-suit-heart-fill" id="heart"></i>
+                찜   <%= contents.좋아요%>
                 
             </button>
 
@@ -54,7 +56,7 @@
     </div>
     <div class = information>
         <h4>판매자 정보</h4>
-        <a><%= contents.작성자 %></a>
+        <a id="chatroom"><%= contents.작성자 %></a>
         
         
         
@@ -70,26 +72,33 @@
 <script>
     
     $('#chat').click(function(e){
-        var id = e.target.dataset.id;
-        
-        $.post('/chatroom', {당한사람id : id})
-        });
-    
-    
-    
+        var _id = e.target.dataset.id;
+        console.log(_id);
+        var id = document.getElementById("chatroom");
+        var id1 = $(id).text();
+      
+     
+        $.post('/chatroom',{chatroomid:_id,chatroomname:id1}).then((data)=>{
+            
+         window.open('chat.ejs');
+  
+})
+
+
+        }).catch((error)=>{
+            console.log(error);
+
+        })
     
     $('#like').click(function(e){
         var Data = e.target.dataset.id;
-        var href= document.location.href;
-        var num= document.location.pathname;
-        num=num[12];
-        console.log(num); // 이렇게 할 때 num이 20일 때 20이 출력될지, 더 좋은 방법이 없는지 
+       content= document.getElementById('content');
+       var count = content.dataset.id;
+      
         
-        
-        $.post('/like',{id:Data,num:num}).then(()=>{
-            console.log('성공')
-            
-            
+       
+        $.post('/like',{id:Data,_id:count}).then((data)=>{
+       
             
         })
         

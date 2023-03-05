@@ -1,21 +1,24 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" href="/public/chat.css">
-    <title>BUTTERFIY</title>
-  </head>
+  <!-- Bootstrap CSS -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link rel="stylesheet" href="/public/chat.css">
+  <title>BUTTERFIY</title>
+</head>
+
 <body>
-    
-    
-    
-    
+
+
+
+
   <div class="container p-4 detail">
 
     <div class="row">
@@ -23,20 +26,19 @@
         <ul class="list-group chat-list">
           <% for (var i=0; i < data.length ; i++){ %>
             <li class="list-group-item" data-id="<%= data[i]._id %>">
-              <h6> <%= data[i].title %> </h6>     
-              <h6 class="text-small"> <%= data[i].member[0] %> </h6>
+              <h6>
+                <%= data[i].title %>
+              </h6>
+              
             </li>
-          <% } %>
-         </ul>
-       </div>
-  
-       <div class="col-9 p-0">
-         <div class="chat-room">
-            <ul class="list-group chat-content">
-              <li><span class="chat-box">채팅방1 내용</span></li>
-              <li><span class="chat-box">채팅방1 내용</span></li>
-              <li><span class="chat-box mine">채팅방1 내용</span></li>
-            </ul>
+            <% } %>
+        </ul>
+      </div>
+
+      <div class="col-9 p-0">
+        <div class="chat-room">
+          <ul class="list-group chat-content">
+          </ul>
           <div class="input-group">
             <input class="form-control" id="chat-input">
             <button class="btn btn-secondary" id="send">전송</button>
@@ -44,50 +46,49 @@
         </div>
       </div>
     </div>
-  
-  </div> 
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script>
-   var clickId;
-    var eventSource; 
-    $('.list-group-item').click(function(){
+
+  </div>
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script>
+    var clickId;
+    var eventSource;
+    $('.list-group-item').click(function () {
       clickId = this.dataset.id;
       $('.chat-content').html('');
-      if(eventSource != undefined) {
+      if (eventSource != undefined) {
         eventSource.close();
       }
       eventSource = new EventSource('/message/' + clickId);
-      eventSource.addEventListener('test', function (e){
+      eventSource.addEventListener('test', function (e) {
         var takeOut = JSON.parse(e.data);
         takeOut.forEach((a) => {
-            $('.chat-content').append(`<li><span class="chat-box">${a.content}</span></li>`)
+          $('.chat-content').append(`<li><span class="chat-box">${a.content}</span></li>`)
         });
       });
-});
-      $('#send').on("click", function() {
-        let chatInfo = {content : $("#chat-input").val(),
-                        parent : clickId}
-        $.post('/message', chatInfo).then(()=> {
-          console.log("전송 성공");
-        })
+    });
+    $('#send').on("click", function () {
+      let chatInfo = {
+        content: $("#chat-input").val(),
+        parent: clickId
+      }
+      $.post('/message', chatInfo).then(() => {
+        console.log("전송 성공");
       })
+    })
+
+  </script>
+
+
+  <!-- Optional JavaScript; choose one of the two! -->
+
+  <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
 
 
 
-</script>
+</body>
 
-
-    
-
-
-
-    <!-- Optional JavaScript; choose one of the two! -->
-
-    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
-
-
-
-  </body>
 </html>
