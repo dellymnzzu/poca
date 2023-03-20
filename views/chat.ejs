@@ -15,68 +15,83 @@
 </head>
 
 <body>
-
-
-
-
   <div class="container p-4 detail">
 
     <div class="row">
       <div class="col-3">
         <ul class="list-group chat-list">
           <% for (var i=0; i < data.length ; i++){ %>
-            <li class="list-group-item" data-id="<%= data[i]._id %>">
+            <button class="room1"data-id="<%= data[i]._id %> ">
               <h6>
                 <%= data[i].title %>
               </h6>
               
-            </li>
+            </button>
             <% } %>
         </ul>
       </div>
-
-      <div class="col-9 p-0">
-        <div class="chat-room">
-          <ul class="list-group chat-content">
-          </ul>
-          <div class="input-group">
-            <input class="form-control" id="chat-input">
-            <button class="btn btn-secondary" id="send">전송</button>
-          </div>
-        </div>
       </div>
+ 
+    
+
+  
+  <h1 style="border-bottom:1px solid gray; ">채팅방</h1>
+
+
+  <div id = "chatting">
+    <div id = "content"></div>
+    <input id="input1" >
+
     </div>
-
+    <div id = "sendBox">
+      <button id ="room1-send">보내기</button>
+</div>
   </div>
-  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-  <script>
-    var clickId;
-    var eventSource;
-    $('.list-group-item').click(function () {
-      clickId = this.dataset.id;
-      $('.chat-content').html('');
-      if (eventSource != undefined) {
-        eventSource.close();
-      }
-      eventSource = new EventSource('/message/' + clickId);
-      eventSource.addEventListener('test', function (e) {
-        var takeOut = JSON.parse(e.data);
-        takeOut.forEach((a) => {
-          $('.chat-content').append(`<li><span class="chat-box">${a.content}</span></li>`)
-        });
-      });
-    });
-    $('#send').on("click", function () {
-      let chatInfo = {
-        content: $("#chat-input").val(),
-        parent: clickId
-      }
-      $.post('/message', chatInfo).then(() => {
-        console.log("전송 성공");
-      })
-    })
 
-  </script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.js" integrity="sha512-rwu37NnL8piEGiFhe2c5j4GahN+gFsIn9k/0hkRY44iz0pc81tBNaUN56qF8X4fy+5pgAAgYi2C9FXdetne5sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      var button = document.querySelector('.room1');
+      console.log(button.dataset.id);
+   var socket = io();
+  $("#room1-send").click(function () {
+    socket.emit("room1-send",$("#input1").val());
+    document.getElementById("input1").value = null;
+  });
+  $(".room1").click(function (name) {
+    socket.emit("joinroom",button.dataset.id);
+    socket.emit("room1", "<%= name.id %>");
+  });
+  
+  socket.on("broadcast", function (data) {
+    $("#content").append("<div> <%=name.id%> :" + data + "</div>");
+  });
+    </script>
+
+<script>
+  $('.room1').click(function(){
+   var _id = e.target.dataset.id;
+
+   $.post('/room',{data:data, room : _id}).then((data)=>{
+   })
+   })
+   
+
+
+ 
+
+
+
+ </script>
+    
+ 
+
+
+
+
+   
+  
 
 
   <!-- Optional JavaScript; choose one of the two! -->

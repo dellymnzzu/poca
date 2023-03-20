@@ -78,16 +78,9 @@
         var id1 = $(id).text();
       
      
-        $.post('/chatroom',{chatroomid:_id,chatroomname:id1}).then((data)=>{
+        $.post('/chat',{chatroomid:_id,chatroomname:id1}).then((data)=>{
+        })
             
-         window.open('chat.ejs');
-  
-})
-
-
-        }).catch((error)=>{
-            console.log(error);
-
         })
     
     $('#like').click(function(e){
