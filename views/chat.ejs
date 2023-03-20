@@ -20,10 +20,10 @@
     <div class="row">
       <div class="col-3">
         <ul class="list-group chat-list">
-          <% for (var i=0; i < data.length ; i++){ %>
-            <button class="room1"data-id="<%= data[i]._id %> ">
+          <% for (var i=0; i < chatlist.length ; i++){ %>
+            <button class="room1"data-id="<%= chatlist[i]._id %> ">
               <h6>
-                <%= data[i].title %>
+                <%= chatlist[i].title %>
               </h6>
               
             </button>
@@ -39,7 +39,11 @@
 
 
   <div id = "chatting">
-    <div id = "content"></div>
+    <% for (var i=0; i < chatting.length ; i++){ %>
+
+    <div id = "content"><%= chatting[i].chat%></div>
+    <% } %>
+
     <input id="input1" >
 
     </div>

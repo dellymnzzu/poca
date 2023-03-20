@@ -33,11 +33,15 @@
             
         </div>
         <div class="d-flex">
+        <form action="/chat" method="POST">
+
+            
             
             <button class="btn btn-outline-dark flex-shrink-0" id="chat" data-id="<%= contents.id %>" type="button">
                 <i class="bi bi-chat-square-dots-fill"></i>
                 1:1대화 
             </button>
+        </form>
             <button class="btn btn-outline-dark flex-shrink-0" id="like" data-id="<%= contents.작성자 %>" type="button">
                 <i class="bi bi-suit-heart-fill" id="heart"></i>
                 찜   <%= contents.좋아요%>

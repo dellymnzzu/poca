@@ -153,6 +153,12 @@ app.get("/mypage/profile", 로그인했니, (req, res) => {
       res.render("profile", { profile: result });
     });
 });
+
+app.put("/mypage/profile",(req,res)=>{
+  db.collection("login").updateOne({_id:req.user._id},{$set:{name : req.body.name, Email : req.body.Email, id: req.body.id, pw:req.body.pw }},(error,result)=>{
+    res.redirect("/mypage/profile");
+  })
+})
 function 로그인했니(req, res, next) {
   if (req.user) {
     next();
@@ -474,29 +480,41 @@ app.get("/bestLike", (req, res) => {
 
 
 
-app.post("/chatroom", 로그인했니, (req, res) => {
-  
+
+
+//채팅방
+
+//  두 이용자가 포함된 채팅방 내역 가져오기 없으면 
+//  방을 만들어서 빈 방의 내역 가져오기
+app.post("/chat", 로그인했니, (req, res) => {
+  console.log('req.body.chatroomname=> ' +req.body.chatroomname);
+  console.log('req.user.id=> '+req.user.id);
   var save = {
     title: req.body.chatroomname,
     member: [ObjectId(req.body.chatroomid), req.user._id],
     date: new Date(),
   };
-  db.collection("chatroom")
-    .insertOne(save)
-    .then((result) => { 
-
-
- 
-});
-
-    });
-
-//채팅방
-
-app.get("/chat", 로그인했니, (req, res) => {
   db.collection("chatroom").find({ member: req.user._id }).toArray().then((result) => {
+ 
+    console.log('result -> '+result);
+    if(req.body.chatroomid){
+      db.collection("chatroom").findOne({member : [req.user._id,req.body.chatroomid]},(error,result2)=>{
+        console.log('result2 -> '+result2)
+       
+        if(!result2){
+          db.collection("chatroom")
+          .insertOne(save)
+          .then((result3) => {   
+            console.log('result3->'+result3);
+        res.render("chat.ejs",{});
+
+      });
+          
+        }
+        res.render("chat.ejs",{});
+      })
+    }
    
-   res.render("chat.ejs", { data: result,name:req.user });
 
       
    });
@@ -527,13 +545,6 @@ io.on("connection", function (socket) {
 });
 
 
-app.post("/room",(req,res)=>{
-  db.collection("chatroom").find({_id:req.user.id},(error,result)=>{
-
-    res.render("chat.ejs",{data:result,room:req.body?.room});
-
-  })
-})
 
 
 
