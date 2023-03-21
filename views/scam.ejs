@@ -25,7 +25,7 @@
  
 
 <div class="scam">
-    <h2 class="text1"> 사기 조회</h2>
+    <h2 class="text1"> 사기 조회 & 신고</h2>
 
     <div class = "navText">
         <p>
@@ -37,7 +37,7 @@
     </div>
 
     <div class="choice">
-        <select class="choiceScam">
+        <select class="choiceScam" name = "select">
             <option value="I">아이디</option>
             <option value="E">
             이메일
@@ -51,19 +51,36 @@
         </div>
 
         
-        
+        <form action = "/scam/add" method="post">
         <div class="card" style="display: none">
             <div class="card-body" >
-             신고건수는 ???입니다.
              
+             신고를 원하시나요?
+            </div>
+            <select class="choiceScam">
+                <option value="I">아이디</option>
+                <option value="E">
+                이메일
+                </option>
+            
+            </select>
+            <div class="input_box">
+                <input type = "text" class="input_box1" name="keyword" placeholder="이메일은 @까지 입력해주세요">
+                <input type="submit" value="전송" id="submit" >
             </div>
           </div>
+        </form>
         
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 <script>
+    $('#Inquire').click(function(){
+        $('.card').show();
+    })
+
 
 
     

@@ -72,13 +72,15 @@
           <p class="card-text">찜이 가장 많은 포카</p> 
     </div>
       </div>
+      
       <div class="col-md-3 col-sm-7">
         <div class="card card-block">
-        
-      <img src="./images/4.jpg"  OnClick="location.href ='/chat'" alt="Photo of sunset">
-          <h5 class="card-title ">1:1</h5>
+          <form action="/chat" method="POST"> 
+          <img src="./images/4.jpg"  id = "chat"  alt="Photo of sunset">
+          <input type="submit" class="card-title " value="1:1">
           <p class="card-text">채팅</p> 
-    </div>
+        </form> 
+        </div>
       </div>    
     </div>
     
@@ -92,6 +94,8 @@
 
 
 <%- include('newmodule.ejs', {Module:Module}) %>
+
+
 
 
 

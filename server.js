@@ -277,8 +277,21 @@ app.get("/search", (req, res) => {
 }); // 서치페이지
 
 app.get("/scam", (req, res) => {
+  
+ 
+  
+
+
   res.render("scam.ejs");
 }); //사기조회
+
+app.post("/scam/add",(req,res)=>{
+  db.collection("scam").insertOne({choice:req.body.select,input:req.body.keyword},(error,result)=>{
+    console.log(result);
+    res.render("scam.ejs");
+  })
+  
+})
 
 app.get("/best", (req, res) => {
   db.collection("content")
@@ -493,45 +506,51 @@ app.post("/chat", 로그인했니, (req, res) => {
     title: req.body.chatroomname,
     member: [ObjectId(req.body.chatroomid), req.user._id],
     date: new Date(),
+
+    
   };
-  db.collection("chatroom").find({ member: req.user._id }).toArray().then((result) => {
- 
-    console.log('result -> '+result);
+  db.collection("chatroom").find({ member: req.user._id }).toArray().then((result) => { //result 채팅리스트
     if(req.body.chatroomid){
       db.collection("chatroom").findOne({member : [req.user._id,req.body.chatroomid]},(error,result2)=>{
-        console.log('result2 -> '+result2)
-       
-        if(!result2){
+        if(!result2){ 
           db.collection("chatroom")
           .insertOne(save)
-          .then((result3) => {   
-            console.log('result3->'+result3);
-        res.render("chat.ejs",{});
-
+          .then((result3) => {   //result2와 비슷  
+        res.render("chat.ejs",{chatlist:result,chatting:result3,name:req.user});
       });
-          
         }
-        res.render("chat.ejs",{});
+        else{
+        res.render("chat.ejs",{chatlist:result,chatting:result2,name:req.user});
+        }
       })
+    } 
+    else{
+    res.render("chat.ejs",{chatlist:result,chatting:null,name:req.user});
     }
-   
-
-      
    });
 }); // 전체 채팅방
-
-
-
 io.on("connection", function (socket) {
   let Username;
   let roomName;
   socket.on("room1-send", function (data) {
     io.emit("broadcast", data);
+    console.log("roomName=> "+roomName);
     console.log("보낸사람=>" + Username);
     console.log("메시지=>" + data);
+    db.collection("chatroom").find({_id:roomName}).toArray((error,result)=>{
+      console.log(result);
 
-    db.collection("message").insert({ contents: data, UserID: Username, title: roomName});
-  }); // 배열로 작성자 내용 일자 추가 만들기 
+      db.collection("chatroom").updateOne({_id:roomName},{ $push: { chat: { UserId:Username , contents: data, date:new Date() } } },
+      (result2) => {
+        console.log(result2);
+        
+      })
+    })
+  });
+
+
+ //
+ // 배열로 작성자 내용 일자 추가 만들기 
   socket.on("room1", function (name) {
     Username = name;
     console.log("이름" + name);
@@ -542,7 +561,8 @@ io.on("connection", function (socket) {
     console.log('방이름'+data);
     socket.join("room1");
   });
-});
+})
+
 
 
 

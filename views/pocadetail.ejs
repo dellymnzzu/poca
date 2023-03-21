@@ -33,15 +33,11 @@
             
         </div>
         <div class="d-flex">
-        <form action="/chat" method="POST">
-
-            
-            
             <button class="btn btn-outline-dark flex-shrink-0" id="chat" data-id="<%= contents.id %>" type="button">
                 <i class="bi bi-chat-square-dots-fill"></i>
                 1:1대화 
             </button>
-        </form>
+             
             <button class="btn btn-outline-dark flex-shrink-0" id="like" data-id="<%= contents.작성자 %>" type="button">
                 <i class="bi bi-suit-heart-fill" id="heart"></i>
                 찜   <%= contents.좋아요%>
@@ -84,21 +80,16 @@
      
         $.post('/chat',{chatroomid:_id,chatroomname:id1}).then((data)=>{
         })
-            
+            console.log(id1);
         })
     
     $('#like').click(function(e){
         var Data = e.target.dataset.id;
        content= document.getElementById('content');
        var count = content.dataset.id;
-      
-        
-       
-        $.post('/like',{id:Data,_id:count}).then((data)=>{
-       
-            
-        })
-        
+
+        $.post('/like',{id:Data,_id:count}).then((data)=>{     
+        })       
     });
     
     

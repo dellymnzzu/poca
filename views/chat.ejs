@@ -15,6 +15,8 @@
 </head>
 
 <body>
+    <%- include('nav.html') %>
+
   <div class="container p-4 detail">
 
     <div class="row">
@@ -38,12 +40,9 @@
   <h1 style="border-bottom:1px solid gray; ">채팅방</h1>
 
 
+
   <div id = "chatting">
-    <% for (var i=0; i < chatting.length ; i++){ %>
-
-    <div id = "content"><%= chatting[i].chat%></div>
-    <% } %>
-
+        <div class = "content"></div>
     <input id="input1" >
 
     </div>
@@ -72,30 +71,6 @@
     $("#content").append("<div> <%=name.id%> :" + data + "</div>");
   });
     </script>
-
-<script>
-  $('.room1').click(function(){
-   var _id = e.target.dataset.id;
-
-   $.post('/room',{data:data, room : _id}).then((data)=>{
-   })
-   })
-   
-
-
- 
-
-
-
- </script>
-    
- 
-
-
-
-
-   
-  
 
 
   <!-- Optional JavaScript; choose one of the two! -->
