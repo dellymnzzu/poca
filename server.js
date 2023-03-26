@@ -538,23 +538,24 @@ io.on("connection", function (socket) {
     console.log("보낸사람=>" + Username);
     console.log("메시지=>" + data);
     db.collection("chatroom").find({_id:roomName}).toArray((error,result)=>{
+      if(error){
+        console.log(error);
+      }
+      console.log(roomName);
       console.log(result);
-
-      db.collection("chatroom").updateOne({_id:roomName},{ $push: { chat: { UserId:Username , contents: data, date:new Date() } } },
-      (result2) => {
-        console.log(result2);
-        
-      })
     })
-  });
 
+    
+     
+    })
 
- //
  // 배열로 작성자 내용 일자 추가 만들기 
   socket.on("room1", function (name) {
     Username = name;
     console.log("이름" + name);
+    
     io.to("room1").emit("broadcast", "<p>"+name+"님이 입장하셨습니다. </p>");
+
   });
   socket.on("joinroom", function (data) {
     roomName = data;

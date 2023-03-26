@@ -55,20 +55,20 @@
   <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.js" integrity="sha512-rwu37NnL8piEGiFhe2c5j4GahN+gFsIn9k/0hkRY44iz0pc81tBNaUN56qF8X4fy+5pgAAgYi2C9FXdetne5sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-      var button = document.querySelector('.room1');
-      console.log(button.dataset.id);
+      
    var socket = io();
   $("#room1-send").click(function () {
     socket.emit("room1-send",$("#input1").val());
     document.getElementById("input1").value = null;
   });
   $(".room1").click(function (name) {
-    socket.emit("joinroom",button.dataset.id);
+    console.log(this.dataset.id);
+    socket.emit("joinroom",this.dataset.id);
     socket.emit("room1", "<%= name.id %>");
   });
   
   socket.on("broadcast", function (data) {
-    $("#content").append("<div> <%=name.id%> :" + data + "</div>");
+    $(".content").append("<div> <%=name.id%> :" + data + "</div>");
   });
     </script>
 
