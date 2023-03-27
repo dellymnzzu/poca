@@ -12,7 +12,40 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const methodOverride = require('method-override')
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method'));
+const { ObjectID, ObjectId } = require("bson");
+let multer = require("multer");
+
+function 로그인했니(req, res, next) {
+  if (req.user) {
+    next();
+  } else {
+    res.render("login.ejs");
+  }
+}
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/image");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // 파일명을 다이나믹하게 작명하고 싶을때! +'날짜' +new data()
+  },
+  fileFilter: function (req, file, callback) {
+    // 파일형식(확장자 거르기!)
+    var ext = path.extname(file.originalname);
+    if (ext !== ".png" && ext !== ".jpg" && ext !== ".jpeg") {
+      return callback(new Error("PNG, JPG만 업로드하세요"));
+    }
+    callback(null, true);
+  },
+  // limits:{     // 파일 사이즈!
+  //     fileSize: 1024 * 1024
+  // }
+});
+
+var upload = multer({ storage: storage });
+
 
 
 app.use(
@@ -159,14 +192,8 @@ app.put("/mypage/profile",(req,res)=>{
     res.redirect("/mypage/profile");
   })
 })
-function 로그인했니(req, res, next) {
-  if (req.user) {
-    next();
-  } else {
-    res.render("login.ejs");
-  }
-}
-//로그인했니 함수
+
+
 
 app.post("/sign", (req, res) => {
   db.collection("login").insertOne(
@@ -286,7 +313,7 @@ app.get("/scam", (req, res) => {
 }); //사기조회
 
 app.post("/scam/add",(req,res)=>{
-  db.collection("scam").insertOne({choice:req.body.select,input:req.body.keyword},(error,result)=>{
+  db.collection("scam").insertOne({choice:req.body.Choice,input:req.body.keyword},(error,result)=>{
     console.log(result);
     res.render("scam.ejs");
   })
@@ -353,29 +380,10 @@ app.get("/poca/:middle", (req, res) => {
     }); //제목 없이 글쓰기 금지
 });
 
-let multer = require("multer");
-const { ObjectId } = require("mongodb");
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/image");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // 파일명을 다이나믹하게 작명하고 싶을때! +'날짜' +new data()
-  },
-  fileFilter: function (req, file, callback) {
-    // 파일형식(확장자 거르기!)
-    var ext = path.extname(file.originalname);
-    if (ext !== ".png" && ext !== ".jpg" && ext !== ".jpeg") {
-      return callback(new Error("PNG, JPG만 업로드하세요"));
-    }
-    callback(null, true);
-  },
-  // limits:{     // 파일 사이즈!
-  //     fileSize: 1024 * 1024
-  // }
-});
 
-var upload = multer({ storage: storage });
+
+
+
 
 app.get("/pocawrite", 로그인했니, (req, res) => {
   res.render("pocawrite.ejs");
@@ -500,18 +508,21 @@ app.get("/bestLike", (req, res) => {
 //  두 이용자가 포함된 채팅방 내역 가져오기 없으면 
 //  방을 만들어서 빈 방의 내역 가져오기
 app.post("/chat", 로그인했니, (req, res) => {
-  console.log('req.body.chatroomname=> ' +req.body.chatroomname);
-  console.log('req.user.id=> '+req.user.id);
+  console.log('req.body.chatroomid=> ' +req.body.chatroomid);
+  console.log('req.user.id=> '+req.user._id);
   var save = {
+  
     title: req.body.chatroomname,
     member: [ObjectId(req.body.chatroomid), req.user._id],
     date: new Date(),
 
     
   };
-  db.collection("chatroom").find({ member: req.user._id }).toArray().then((result) => { //result 채팅리스트
+  db.collection("chatroom").find({ member: req.user._id }).toArray().then((result) => {
+     //result 채팅리스트
     if(req.body.chatroomid){
       db.collection("chatroom").findOne({member : [req.user._id,req.body.chatroomid]},(error,result2)=>{
+       console.log('result2 = > '+result2);
         if(!result2){ 
           db.collection("chatroom")
           .insertOne(save)
@@ -530,23 +541,23 @@ app.post("/chat", 로그인했니, (req, res) => {
    });
 }); // 전체 채팅방
 io.on("connection", function (socket) {
-  let Username;
   let roomName;
+  let Username;
+  
   socket.on("room1-send", function (data) {
-    io.emit("broadcast", data);
-    console.log("roomName=> "+roomName);
+    var room3 = new ObjectId(roomName);
+    console.log("roomName=> "+room3);
     console.log("보낸사람=>" + Username);
     console.log("메시지=>" + data);
-    db.collection("chatroom").find({_id:roomName}).toArray((error,result)=>{
-      if(error){
-        console.log(error);
-      }
+    db.collection("chatroom").findOne({_id:room3},(error,result)=>{
+      
       console.log(roomName);
       console.log(result);
     })
+    io.emit("broadcast", data);
 
     
-     
+    
     })
 
  // 배열로 작성자 내용 일자 추가 만들기 

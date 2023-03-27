@@ -51,15 +51,16 @@
         </div>
 
         
-        <form action = "/scam/add" method="post">
         <div class="card" style="display: none">
             <div class="card-body" >
-             
-             신고를 원하시나요?
+                신고 이력이 있습니다/없습니다
+                신고를 원하시나요?
             </div>
-            <select class="choiceScam">
-                <option value="I">아이디</option>
-                <option value="E">
+            <form action = "/scam/add" method="post">
+            <select id="choiceScam" name="Choice">
+                <option value="C">클릭하세요</option>
+                <option value="ID">아이디</option>
+                <option value="Email">
                 이메일
                 </option>
             
@@ -78,8 +79,23 @@
 
 <script>
     $('#Inquire').click(function(){
+        
         $('.card').show();
     })
+
+//     $(document).ready(function(){
+//   $("#choiceScam").change(function(){
+//     var val = $('#choiceScam').find(":selected").val();
+//     var text = $('#choiceScam').find(":selected").text();
+    
+//     $("#value").val(val);
+//     $("#text").val(text);
+   
+//   });
+// });
+
+  
+
 
 
 
