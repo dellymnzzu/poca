@@ -545,11 +545,11 @@ io.on("connection", function (socket) {
   let Username;
   
   socket.on("room1-send", function (data) {
-    var room3 = new ObjectId(roomName);
-    console.log("roomName=> "+room3);
+    
+    console.log("roomName=> "+roomName);
     console.log("보낸사람=>" + Username);
     console.log("메시지=>" + data);
-    db.collection("chatroom").findOne({_id:room3},(error,result)=>{
+    db.collection("chatroom").findOne({_id:roomName},(error,result)=>{
       
       console.log(roomName);
       console.log(result);
