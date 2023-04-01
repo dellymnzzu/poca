@@ -47,8 +47,10 @@
 
         <div class="input_box">
             <input type = "text" class="input_box1" name="keyword" placeholder="입력해주세요">
-            <input type="button" value="조회" id="Inquire" >
+            <input type="button" value="조회" id="Inquire">
         </div>
+
+        
 
         
         <div class="card" style="display: none">
@@ -56,6 +58,8 @@
                 신고 이력이 있습니다/없습니다
                 신고를 원하시나요?
             </div>
+            <!-- 만약 컬렉션에서 조회를 눌렀을 때 같은 이름이 있다면, 있습니다 출력 
+            없으면, 없습니다 출력   -->
             <form action = "/scam/add" method="post">
             <select id="choiceScam" name="Choice">
                 <option value="C">클릭하세요</option>
@@ -63,6 +67,9 @@
                 <option value="Email">
                 이메일
                 </option>
+
+                <!-- 만약 c를 누른다면, alert("아이디와이메일중 한가지를 선택하세요") -->
+                  
             
             </select>
             <div class="input_box">
@@ -78,10 +85,15 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
 <script>
-    $('#Inquire').click(function(){
-        
+    $('#Inquire').click(function(e){
         $('.card').show();
-    })
+        var input = e.target.dataset.id;
+       
+        $.post('/scam/search',{input:input}).then((data)=>{
+        })
+            
+        })
+  
 
 //     $(document).ready(function(){
 //   $("#choiceScam").change(function(){

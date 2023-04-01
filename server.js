@@ -6,14 +6,16 @@ const io = new Server(http);
 app.set("view engine", "ejs");
 app.use("/public", express.static("public"));
 app.use(express.urlencoded({ extended: true }));
-const MongoCilent = require("mongodb").MongoClient;
+const MongoCilent = require("mongodb").MongoClient; // mongo db
 app.use(express.static("views"));
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'));
-const { ObjectID, ObjectId } = require("bson");
+const {ObjectId} = require('mongodb');
+
+
 let multer = require("multer");
 
 function 로그인했니(req, res, next) {
@@ -304,12 +306,24 @@ app.get("/search", (req, res) => {
 }); // 서치페이지
 
 app.get("/scam", (req, res) => {
+ 
+    res.render("scam.ejs");
+
+  })
+  app.get("/scam/search", (req, res) => {
+    console.log(req.body.keyword);
+    console.log(req.body.input);
+  
+    db.collection("scam").find({input:req.body.input}).toArray((error,result)=>{
+      res.render("scam.ejs",{scam:result});
+  
+    })
+
   
  
   
 
 
-  res.render("scam.ejs");
 }); //사기조회
 
 app.post("/scam/add",(req,res)=>{
@@ -499,19 +513,12 @@ app.get("/bestLike", (req, res) => {
 }); // 찜페이지
 
 
-
-
-
-
-//채팅방
-
-//  두 이용자가 포함된 채팅방 내역 가져오기 없으면 
-//  방을 만들어서 빈 방의 내역 가져오기
 app.post("/chat", 로그인했니, (req, res) => {
   console.log('req.body.chatroomid=> ' +req.body.chatroomid);
   console.log('req.user.id=> '+req.user._id);
   var save = {
   
+    id : ObjectId(ObjectId(req.body.chatroomid)&req.user._id),
     title: req.body.chatroomname,
     member: [ObjectId(req.body.chatroomid), req.user._id],
     date: new Date(),
@@ -521,7 +528,7 @@ app.post("/chat", 로그인했니, (req, res) => {
   db.collection("chatroom").find({ member: req.user._id }).toArray().then((result) => {
      //result 채팅리스트
     if(req.body.chatroomid){
-      db.collection("chatroom").findOne({member : [req.user._id,req.body.chatroomid]},(error,result2)=>{
+      db.collection("chatroom").findOne({member : [ObjectId(req.body.chatroomid),req.user._id]},(error,result2)=>{
        console.log('result2 = > '+result2);
         if(!result2){ 
           db.collection("chatroom")
@@ -543,46 +550,54 @@ app.post("/chat", 로그인했니, (req, res) => {
 io.on("connection", function (socket) {
   let roomName;
   let Username;
-  
+  let datalist ;
+
   socket.on("room1-send", function (data) {
-    
-    console.log("roomName=> "+roomName);
+    console.log("roomName=> " + roomName);
     console.log("보낸사람=>" + Username);
     console.log("메시지=>" + data);
-    db.collection("chatroom").findOne({_id:roomName},(error,result)=>{
-      
-      console.log(roomName);
-      console.log(result);
-    })
-    io.emit("broadcast", data);
 
-    
-    
-    })
-
- // 배열로 작성자 내용 일자 추가 만들기 
-  socket.on("room1", function (name) {
-    Username = name;
-    console.log("이름" + name);
-    
-    io.to("room1").emit("broadcast", "<p>"+name+"님이 입장하셨습니다. </p>");
-
+    db.collection("chatroom").updateOne(
+      { id: new ObjectId(roomName) },
+      {
+        $push: { chat: { UserId: Username, contents: data, date: new Date() } },
+      },
+      { upsert: true },
+      (error, result) => {
+        datalist.name = Username;
+        datalist.contensts = data;
+        io.emit("broadcast", datalist);
+      }
+    );
   });
-  socket.on("joinroom", function (data) {
-    roomName = data;
-    console.log('방이름'+data);
-    socket.join("room1");
+
+  
+    // 배열로 작성자 내용 일자 추가 만들기
+    socket.on("room1", function (name) {
+      Username = name;
+      console.log("이름" + name);
+      db.collection("chatroom").findOne(
+        { id: new ObjectId(roomName) },
+        (error, result) => {
+          if (result.chat) {
+            for (var i = 0; i < result.chat.length; i++) {
+              datalist = {
+                name: result.chat[i].UserId,
+                contensts: result.chat[i].contents,
+              };
+              socket.emit("datalist",{datalist});
+              io.to("room1").emit("broadcast", datalist);
+            }
+          } else {
+            datalist.contents = "님이 입장하셨습니다.";
+            io.to("room1").emit("broadcast", datalist);
+          }
+        }
+      );
+    });
+    socket.on("joinroom", function (data) {
+      roomName = data;
+      console.log("방이름" + data);
+      socket.join("room1");
+    });
   });
-})
-
-
-
-
-
-
-
-
-
-
-
-
