@@ -162,8 +162,7 @@ app.get("/about", (req, res) => {
 app.get("/mypage", 로그인했니, (req, res) => {
   db.collection("content")
     .find({ likeid: req.user.id })
-    .sort({ 시간: -1 })
-    .toArray((error, result) => {
+    .sort({ 시간: -1 })    .toArray((error, result) => {
       res.render("mypage.ejs", {
         id: req.user,
         Module: result,
@@ -173,7 +172,7 @@ app.get("/mypage", 로그인했니, (req, res) => {
 });
 //마이페이지
 
-app.put("/mypage/products", 로그인했니, (req, res) => {
+app.get("/mypage/products", 로그인했니, (req, res) => {
   db.collection("content")
     .find({ 작성자: req.user.id })
     .toArray((error, result) => {
@@ -305,34 +304,35 @@ app.get("/search", (req, res) => {
     });
 }); // 서치페이지
 
-app.get("/scam", (req, res) => {
+app.get("/scam",(req,res)=>{
  
     res.render("scam.ejs");
 
   })
-  app.get("/scam/search", (req, res) => {
-    console.log(req.body.keyword);
-    console.log(req.body.input);
-  
-    db.collection("scam").find({input:req.body.input}).toArray((error,result)=>{
-      res.render("scam.ejs",{scam:result});
-  
-    })
 
-  
- 
-  
+app.get("/scam/search",(req,res)=>{
+  console.log(req.query.input);
+  db.collection("scam").findOne({input:req.query.input},(error,result)=>{
+    if(result){
+      res.render("scam.ejs");
 
+    }
+    else{
+      res.render("scam.ejs");
 
-}); //사기조회
-
-app.post("/scam/add",(req,res)=>{
-  db.collection("scam").insertOne({choice:req.body.Choice,input:req.body.keyword},(error,result)=>{
+    }
     console.log(result);
     res.render("scam.ejs");
+
   })
-  
 })
+app.get("/scam/add", (req, res) => {
+    db.collection("scam").insertOne({choice:req.query.Choice,input:req.query.keyword},(error,result2)=>{
+      res.render("scamInput.ejs");
+  })
+})
+
+  
 
 app.get("/best", (req, res) => {
   db.collection("content")
