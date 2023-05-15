@@ -15,9 +15,9 @@
   
     <div class="login-box">
         <h2>JOIN</h2>
-        <form action="/sign" method="post">
+        <form action="/sign" method="post" onsubmit="return check();">
           <div class="user-box">
-            <input type="text" name="name" id = "text" required="">
+            <input type="text" name="name" id = "text" maxlength="10" minlength="2">
             <label>Username</label>
           </div>
           <div class="user-box">
@@ -25,17 +25,50 @@
             <label>Email</label>
           </div>
           <div class="user-box">
-            <input type="text" name="id" id="text" required="">
+            <input type="text" name="id" id="text" required="" >
             <label>ID</label>
           </div>
           <div class="user-box">
-            <input type="password" name="pw" id="text" required="">
+            <input type="password" name="pw" id="text" maxlength="16" minlength="4">
             <label>Password</label>
           </div>
           <input type = "submit" id = "submitinput"value = "SUBMIT">
           
         </form>
       </div>
+      <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+      <script>
+       
+
+
+       function check(){
+        var Email = $("input[name=Email]").val();
+        var id = $("input[name=id]").val();
+        var Id=/^[a-zA-z0-9]{4,12}$/
+        var email = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+
+        if(!Id.test(id)){
+          alert("아이디는 영문 대소문자 4~12자리로 입력하세요");
+          return false;
+          
+          
+        }
+        if(!email.test(Email)){
+          alert("이메일 양식이 틀렸습니다 다시 입력해주세요.");
+          return false;
+        }
+      
+         
+      
+       }
+       
+       
+
+       
+
+
+
+      </script>
 
     
 

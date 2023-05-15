@@ -57,6 +57,7 @@
     <script>
       
    var socket = io();
+
    
   $("#room1-send").click(function () {
     socket.emit("room1-send",$("#input1").val());
@@ -69,8 +70,9 @@
   });
   
   socket.on("broadcast", function (datalist) {
-      
-        $(".content").append("<div>" +datalist.name + ":" + datalist.contensts + "</div>");
+    console.log(datalist.name);  
+
+      $(".content").append("<div>" + datalist.name+ ":" + datalist.contensts + "</div>");
       });
     </script>
 

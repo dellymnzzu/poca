@@ -13,7 +13,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const session = require("express-session");
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'));
-const {ObjectId} = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
 
 
 let multer = require("multer");
@@ -61,17 +61,8 @@ MongoCilent.connect(
   (에러, client) => {
     if (에러) return console.log(에러);
     db = client.db("poca");
-    app.post("/sign", (req, res) => {
-      res.send("저장완료되었습니다.");
-      db.collection("login").insertOne({
-        id: req.body.id,
-        pw: req.body.pw,
-        name: req.body.name,
-        Email: req.body.Email,
-      });
-    });
   }
-); // 회원가입
+); 
 
 http.listen(8080);
 
@@ -101,8 +92,9 @@ app.get("/newmodule/:id", (req, res) => {
 //포카모듈
 
 app.get("/sign_up", (req, res) => {
-  res.render("sign_up.ejs"); //회원가입페이지
+  res.render("sign_up.ejs"); 
 });
+
 
 app.get("/login", (req, res) => {
   res.render("login"); //로그인페이지 만들기
@@ -110,9 +102,8 @@ app.get("/login", (req, res) => {
 
 app.post(
   "/login",
-  passport.authenticate("local", { failureRedirect: "/fail" }),
+  passport.authenticate("local", { failureRedirect: "/login" }),
   (req, res) => {
-    console.log(req.body);
     res.redirect("/");
   }
 );
@@ -126,18 +117,17 @@ passport.use(
       passReqToCallback: false,
     },
     function (입력한아이디, 입력한비번, done) {
-      //console.log(입력한아이디, 입력한비번);
       db.collection("login").findOne(
         { id: 입력한아이디 },
         function (에러, 결과) {
           if (에러) return done(에러);
 
           if (!결과)
-            return done(null, false, { message: "존재하지않는 아이디입니다." });
+            return done(null, false, { message: '존재하지않는 아이디입니다.' });
           if (입력한비번 == 결과.pw) {
             return done(null, 결과);
           } else {
-            return done(null, false, { message: "다시 입력바랍니다." });
+            return done(null, false, { message: '다시 입력바랍니다.' });
           }
         }
       );
@@ -161,12 +151,12 @@ app.get("/about", (req, res) => {
 //about페이지
 app.get("/mypage", 로그인했니, (req, res) => {
   db.collection("content")
-    .find({ likeid: req.user.id })
-    .sort({ 시간: -1 })    .toArray((error, result) => {
-      res.render("mypage.ejs", {
-        id: req.user,
-        Module: result,
-        contents: result,
+  .find({ likeid: req.user.id })
+  .sort({ 시간: -1 })    .toArray((error, result) => {
+    res.render("mypage.ejs", {
+      id: req.user,
+      Module: result,
+      contents: result,
       });
     });
 });
@@ -174,8 +164,8 @@ app.get("/mypage", 로그인했니, (req, res) => {
 
 app.get("/mypage/products", 로그인했니, (req, res) => {
   db.collection("content")
-    .find({ 작성자: req.user.id })
-    .toArray((error, result) => {
+  .find({ 작성자: req.user.id })
+  .toArray((error, result) => {
       res.render("product", { id: req.user, Module: result, contents: result });
     });
 }); // 마이페이지 중 내상품 페이지
@@ -194,24 +184,48 @@ app.put("/mypage/profile",(req,res)=>{
   })
 })
 
-
-
 app.post("/sign", (req, res) => {
-  db.collection("login").insertOne(
-    { name: req.body.name, id: req.body.id, pw: req.body.pw },
-    (error, result) => {
-      console.log("회원가입완료");
+  db.collection("login").findOne({id:req.body.id},(error,result)=>{
+    
+if(result){
+  res.send('<script>alert("이미 있는 아이디입니다. 다시 입력해주세요."),history.back();</script>');
+}
+
+else{
+  db.collection("login").insertOne({     
+    id: req.body.id,
+    pw: req.body.pw,
+    name: req.body.name,
+    Email: req.body.Email},(error, result) => {
       res.redirect("/login");
-    }
-  );
-}); // 회원가입
+          })
+        }
+        
+  })
+        })
+
+
+
+app.delete("/mypage/profile/delete",(req,res)=>{
+  var id = req.body._id;
+  var id1=ObjectId(id);
+  console.log(id1);
+  db.collection("login").deleteOne({_id:id1},(error,result)=>{
+    console.log(result);
+    res.send('탈퇴되었습니다.')
+  })
+});
+
+
+
 
 app.get("/write", 로그인했니, (req, res) => {
+  
   res.render("write.ejs");
 }); //글쓰기페이지
 
 app.post("/add", (req, res) => {
-  res.send("저장완료되었습니다.");
+  res.send('<script>alert("저장되었습니다."),location.href="/qna";</script>');
 
   db.collection("counter").findOne(
     { name: "총게시물갯수" },
@@ -267,6 +281,28 @@ app.get("/detail/:id", 로그인했니, (req, res) => {
   );
 }); // qna 디테일 페이지
 
+app.post("/detail/delete",(req,res)=>{
+  db.collection("post").deleteOne({_id:parseInt(req.body._id)},(error,result)=>{
+    console.log("삭제완료");
+    res.render("qna.ejs",{posts: result});
+  })
+})
+
+app.get("/detail/update/:id",(req,res)=>{
+  db.collection("post").findOne({_id:parseInt(req.params.id)},(error,result)=>{
+    console.log(result);
+      res.render("edit.ejs",{data:result,dataid:req.user});
+    })
+
+  })
+
+app.put("/detail/update",(req,res)=>{
+    db.collection("post").updateOne({_id:parseInt(req.body.id)},{$set:{제목 : req.body.title, 내용 : req.body.data }},(error,result)=>{
+      res.send('<script>alert("수정되었습니다."),location.replace("/qna");</script>');
+      
+    })
+  })
+
 app.post("/comment", 로그인했니, (req, res) => {
   var 저장 = {
     댓글: req.body.comment,
@@ -304,28 +340,6 @@ app.get("/search", (req, res) => {
     });
 }); // 서치페이지
 
-app.get("/scam",(req,res)=>{
- 
-    res.render("scam.ejs");
-
-  })
-
-app.get("/scam/search",(req,res)=>{
-  console.log(req.query.input);
-  db.collection("scam").findOne({input:req.query.input},(error,result)=>{
-    if(result){
-      res.render("scam.ejs");
-
-    }
-    else{
-      res.render("scam.ejs");
-
-    }
-    console.log(result);
-    res.render("scam.ejs");
-
-  })
-})
 app.get("/scam/add", (req, res) => {
     db.collection("scam").insertOne({choice:req.query.Choice,input:req.query.keyword},(error,result2)=>{
       res.render("scamInput.ejs");
@@ -404,7 +418,7 @@ app.get("/pocawrite", 로그인했니, (req, res) => {
 });
 
 app.post("/addwirte", upload.single("picture"), (req, res) => {
-  res.send("저장완료");
+  
 
   db.collection("counter").findOne(
     { contentName: "totalNumber" },
@@ -413,27 +427,18 @@ app.post("/addwirte", upload.single("picture"), (req, res) => {
       console.log(result.totalContent);
       var totalNumber = result.totalContent;
 
-      var save = {
-        _id: totalNumber + 1,
-        id: req.user._id,
-        작성자: req.user.id,
-        제목: req.body.pocatitle,
-        대분류: req.body.group,
-        middle: req.body.issue,
-        소분류: req.body.detail,
-        값: req.body.price,
-        설명: req.body.explanation,
-        좋아요: 0,
-        조회수: 0,
-        시간: new Date(),
-        이미지: req.file?.originalname ? req.file.originalname : null,
-      };
+      var save = {_id:totalNumber+1 ,id:req.user._id,작성자: req.user.id,제목 : req.body.pocatitle, 대분류 : req.body.group, 
+        middle : req.body.issue, 소분류 : req.body.detail, 값 : req.body.price, 설명 : req.body.explanation, 좋아요:0,
+        조회수 : 0,시간: new Date(),이미지:req.file.originalname} //이미지:req.file?.originalname?req.file.originalname:null
 
       db.collection("content").insertOne(save, (에러, 결과) => {
         db.collection("counter").updateOne(
           { contentName: "totalNumber" },
           { $inc: { totalContent: 1 } },
-          () => {}
+          (error,result) => {
+            res.send('<script>alert("저장되었습니다."),location.replace("/");</script>');
+            
+          }
         ); // set : 변경, inc : 기존값에 더해줄 값
       });
     }
@@ -514,7 +519,7 @@ app.get("/bestLike", (req, res) => {
 
 
 app.post("/chat", 로그인했니, (req, res) => {
-  console.log('req.body.chatroomid=> ' +req.body.chatroomid);
+  console.log('req.body.chatroomid=> '+ObjectId(req.body.chatroomid));
   console.log('req.user.id=> '+req.user._id);
   var save = {
   
@@ -528,7 +533,7 @@ app.post("/chat", 로그인했니, (req, res) => {
   db.collection("chatroom").find({ member: req.user._id }).toArray().then((result) => {
      //result 채팅리스트
     if(req.body.chatroomid){
-      db.collection("chatroom").findOne({member : [ObjectId(req.body.chatroomid),req.user._id]},(error,result2)=>{
+      db.collection("chatroom").findOne({member :[ObjectId(req.body.chatroomid),req.user._id]},(error,result2)=>{
        console.log('result2 = > '+result2);
         if(!result2){ 
           db.collection("chatroom")
@@ -538,7 +543,7 @@ app.post("/chat", 로그인했니, (req, res) => {
       });
         }
         else{
-        res.render("chat.ejs",{chatlist:result,chatting:result2,name:req.user});
+        res.render("chat.ejs",{chatlist:result,chatting:result2,name:req.user.id});
         }
       })
     } 
@@ -550,7 +555,10 @@ app.post("/chat", 로그인했니, (req, res) => {
 io.on("connection", function (socket) {
   let roomName;
   let Username;
-  let datalist ;
+  let datalist = {
+    name: Username,
+    contensts: null,
+  };
 
   socket.on("room1-send", function (data) {
     console.log("roomName=> " + roomName);
@@ -564,40 +572,43 @@ io.on("connection", function (socket) {
       },
       { upsert: true },
       (error, result) => {
-        datalist.name = Username;
         datalist.contensts = data;
         io.emit("broadcast", datalist);
       }
     );
   });
 
-  
-    // 배열로 작성자 내용 일자 추가 만들기
-    socket.on("room1", function (name) {
-      Username = name;
-      console.log("이름" + name);
-      db.collection("chatroom").findOne(
-        { id: new ObjectId(roomName) },
-        (error, result) => {
-          if (result.chat) {
-            for (var i = 0; i < result.chat.length; i++) {
-              datalist = {
-                name: result.chat[i].UserId,
-                contensts: result.chat[i].contents,
-              };
-              socket.emit("datalist",{datalist});
-              io.to("room1").emit("broadcast", datalist);
-            }
-          } else {
-            datalist.contents = "님이 입장하셨습니다.";
+  // 배열로 작성자 내용 일자 추가 만들기
+  socket.on("room1", function (name) {
+    Username = name;
+    console.log("이름" + Username);
+    db.collection("chatroom").findOne(
+      { id: new ObjectId(roomName) },
+      (error, result) => {
+        if (result.chat) {
+          console.log(result.chat[0].contents);
+          for (var i = 0; i < result.chat.length; i++) {
+            datalist = {
+              name: result.chat[i].UserId,
+              contensts: result.chat[i].contents,
+            };
+            socket.emit("datalist",{datalist});
             io.to("room1").emit("broadcast", datalist);
           }
+        } else {
+          datalist={
+            name: name,
+            contensts :"님이 입장하셨습니다."
+          };
+          
+          io.to("room1").emit("broadcast", datalist);
         }
-      );
-    });
-    socket.on("joinroom", function (data) {
-      roomName = data;
-      console.log("방이름" + data);
-      socket.join("room1");
-    });
+      }
+    );
   });
+  socket.on("joinroom", function (data) {
+    roomName = data;
+    console.log("방이름" + data);
+    socket.join("room1");
+  });
+});
