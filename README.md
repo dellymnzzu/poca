@@ -50,9 +50,40 @@
 </br> 
 
 
-## 이미지 
+## 동영상 
+- 회원가입 로그인
+> https://youtu.be/ZZwwF1sxsHY
 
-- 보여주기
+ - 이메일 비밀번호 이름 유효성 검사
+ - 아이디 중복 검사
+ 
+ - Q&A (검색부분)
+> https://youtu.be/ETDULsdGHOg
+> https://youtu.be/NvN4VsRrXbc (검색기능)
+ - CRUD (본인일 경우에만 수정,삭제 버튼 가능)
+ - 검색 가능
+ - 댓글 가능
+ 
+-게시글
+>https://youtu.be/KUD4ko8A4OE 
+ - 로그인시 게시글 작성(이미지 첨부 가능)
+
+>https://youtu.be/3BX6FLXRfdc
+ - 최신순,조회순,베스트순으로 정렬 
+ 
+>https://youtu.be/e9pvFwjAXNc
+ - 카테고리 별 상품 조회 정렬
+ 
+- 채팅
+>https://youtu.be/n3PAE9K37WU
+ - 원하는 게시글의 1:1 채팅을 누를 시 1:1 채팅 가능
+ 
+- MYPAGE
+>https://youtu.be/PTIyLYUovrA
+ - 찜한 상품, 내상품 조회
+ - 개인정보 수정, 아이디 탈퇴 가능
+ 
+
 
 </br>
 
@@ -65,6 +96,7 @@
 - DB 경량화 
 - css 꾸미기
 - 관리자 전용 페이지 생성
+- 수정시 게시글의 아이디도 함께 수정
 
 
 
