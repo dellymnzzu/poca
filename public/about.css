@@ -83,6 +83,12 @@ body{
 
 .box .info:first-letter{text-transform: capitalize;line-height: 1.7}
 
+.box #bold{
+  color : red;
+  font-weight : bold;
+
+}
+
 .box .name{
   margin-top: 10px;
   text-transform: capitalize;
