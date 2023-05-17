@@ -48,6 +48,13 @@
         color: #505052;
     }
 
-   
-
+   .text-decoration-line-through{
+    color:brown;
+   }
+   #poca-center{
+    display: flex; 
+    flex-direction: row; 
+    height: 200px;
+    
+   }
     

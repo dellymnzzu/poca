@@ -1,6 +1,14 @@
-.nav-link{
+.nav{
+    display: flex;
+    justify-content:center;
+}
+
+
+
+.nav .nav-link{
    
 
     color:grey;
+    
 
 }

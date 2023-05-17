@@ -1,4 +1,10 @@
-img{
+.carousel-item img{
+  width: 95%;
+  height:600px;
+  margin: 10px 30px;
+}
+
+.container img{
     height:200px;
     width:242px;
   }

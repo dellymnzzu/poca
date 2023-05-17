@@ -1,0 +1,13 @@
+.container-fluid-new{
+    margin :auto; 
+    width: 0;
+}
+
+.container-fluid-new .new{
+    color:rgb(100, 99, 99);
+    padding-top: 20px;
+    padding-bottom: 0.3125rem;
+    margin-right: 1rem;
+    font-weight: 500;
+    font-size : 19px;
+}

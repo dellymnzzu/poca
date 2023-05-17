@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <link rel="stylesheet" href="/public/edit.css">
     
   </head>
   <body>
@@ -20,7 +21,7 @@
 
 
     <nav class="navbar bg-body-tertiary">
-      <div class="container-fluid mt-4 mb-4" style="justify-content : center; ">
+      <div class="edit-title container-fluid mt-4 mb-4">
         <span class="navbar-text">
           수정하기
         </span>
@@ -30,7 +31,7 @@
     <form action = "/detail/update/?_method=PUT" method = "POST"> 
       <div class="form-group">
         <input type="text" class="form-control" name = "title" >
-        <input type="text" name="id" value="<%= data._id %>" style = "display: none;">
+        <input type="text" class = "id" name="id" value="<%= data._id %>" >
 
       </div>
        
@@ -41,13 +42,13 @@
       <input type="hidden" name="use_editor" value="Y" />
         <input type="hidden" name="use_html" value="Y" />
      
-      <input type="submit" class="btn btn-secondary ml-1" style="float:right;" value="수정">
+      <input type="submit" class="edit-btn btn-secondary ml-1"  value="수정">
 
       
       
     </form>
     
-    <input type="submit" onclick="location.href='/qna'" class="btn btn-light" style="float:right; border:1px solid black;" value="취소">
+    <input type="submit" onclick="location.href='/qna'" class="cancel-btn btn-light" value="취소">
 
 
 

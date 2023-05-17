@@ -29,7 +29,7 @@
         <div class="small mb-1"><%= contents.대분류 %> / <%= contents.middle %> / <%= contents.소분류 %></div>
         <h1 class="display-5 fw-bolder" id = "content"data-id = "<%= contents._id %>"><%= contents.제목 %> <%= contents.조회수 %></h1>
         <div class="fs-5 mb-5">
-            <h1 class="text-decoration-line-through" style="color:brown;"><%= contents.값 %>원</h1>
+            <h1 class="text-decoration-line-through" ><%= contents.값 %>원</h1>
             
         </div>
         <div class="d-flex">
@@ -48,7 +48,7 @@
     </div>
 </div>
 
-<div style = "display: flex; flex-direction: row; height: 200px;">
+<div id= "poca-center">
     <div class = "lead">
         <h4>상품 정보</h4>
         <p><%= contents.설명 %></p>

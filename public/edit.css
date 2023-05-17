@@ -1,0 +1,15 @@
+.navbar .edit-title{
+    justify-content : center;
+}
+
+.form-group .id{
+    display: none;
+}
+
+.edit-title{
+    float:right;
+}
+.cancel-btn{
+    float:right; 
+    border:1px solid black;
+}
