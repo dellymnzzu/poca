@@ -8,6 +8,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="/public/index.css">
+    <link rel="stylesheet" href="/public/newmodule.css">
+
+
 
     <title>BUTTERFIY</title>
   </head>
@@ -76,7 +79,7 @@
       <div class="col-md-3 col-sm-7">
         <div class="card card-block">
           <form action="/chat" method="POST"> 
-            <button type = "submit" class ="card-title">
+            <button type = "submit" class ="cardTitle">
           <img src="./images/4.jpg"  id = "chat"  alt="Photo of sunset">
           <h5 class="card-title ">1:1</h5> 
           <p class="card-text">채팅</p> 
@@ -89,10 +92,11 @@
 </div>
 
 <nav class="navbar bg-body-tertiary" >
-  <div class="container-fluid-new" style="color:rgb(100, 99, 99); margin :auto; width: 0;">
+  <div class="container-fluid-new" >
     <span class="navbar-brand mb-3 mt-3 h2" >NEW</span>
   </div>
 </nav>
+
 
 
 <%- include('newmodule.ejs', {Module:Module}) %>

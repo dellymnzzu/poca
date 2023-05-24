@@ -34,3 +34,59 @@
     border-radius : 3px;
 
 }
+
+.card .title #pocaTitle{
+    float:center;
+}
+
+.module .thumbnail{
+    float: left;
+
+}
+
+.module .thumbnail img{
+    margin:0;
+}
+
+.card .title .xans-element-{
+    display : none;
+    float : left;
+}
+
+
+.card .title .description .name{
+    float : left;
+
+   
+}
+
+.list-group-item{
+    float: center;
+}
+
+.list-group-item .my{
+    background:none;
+    border:none;
+    position: absolute;
+    top: 25%;
+    left:15%;
+    color : rgb(100, 97, 97);
+    font-weight:bold;
+    
+
+   
+}
+
+.list-group-item #setting{
+    background:none;
+    border:none;
+    margin-left: 50%;
+    color : rgb(100, 97, 97);
+    font-weight: bold;
+
+}
+.list-group-item .mypage-line{
+    border-left : thin solid #faf3c2;
+    height: 10px;
+}
+

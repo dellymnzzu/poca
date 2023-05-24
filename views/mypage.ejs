@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
   <link rel="stylesheet" href="/public/mypage.css">
+  <link rel="stylesheet" href="/public/newmodule.css">
+
 
   <title>BUTTERFIY</title>
 </head>
@@ -45,8 +47,11 @@
     <div class="card">
       <div class="title">
         <h3>포카 바인더</h3>
-        <span>(나의 갈망포카)</span>
-        <%- include('newmodule.ejs', {Module:Module}) %>
+        <span id ="pocaTitle">(나의 갈망포카)</span>
+        <div class = "module">
+
+          <%- include('newmodule.ejs', {Module:Module}) %>
+        </div>
 
 
       </div>
@@ -67,7 +72,7 @@
 
       <li class="list-group-item">
         <button class="my" OnClick="location.href ='/mypage/products'">내상품</button>
-        
+        <div class = "mypage-line"></div>
         <button id="setting" OnClick="location.href ='/mypage/profile'">프로필</button>
 
       </li>

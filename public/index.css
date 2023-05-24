@@ -1,7 +1,13 @@
+.xans-record{
+  list-style:none;
+}
+
 .carousel-item img{
-  width: 95%;
-  height:600px;
-  margin: 10px 30px;
+  width: 90%;
+  height:500px;
+  margin: 30px ;
+  margin-left:70px;
+  
 }
 
 .container img{
@@ -18,15 +24,27 @@
     
   }
   .card{
-    
-   
     transition:0.5s;
     cursor:pointer;
+    text-align: center;
+
   }
+  .cardTitle{
+    border:none;
+    background : none;
+    
+  }
+  img#chat{
+    width:236px;
+    height:200px;
+
+  }
+
   .card-title{  
     font-size:15px;
     transition:1s;
     cursor:pointer;
+    color:#ffa710
   }
   .card-title i{  
     font-size:15px;
@@ -44,7 +62,9 @@
     box-shadow: 10px 10px 15px rgba(0,0,0,0.3);
   }
   .card-text{
-    height:80px;  
+    height:80px; 
+    font-size : 15px;
+    font-weight: bold; 
   }
   
   .card::before, .card::after {
@@ -68,3 +88,10 @@
   .card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
     transform: scale3d(1, 1, 1);
   }
+
+  .navbar .container-fluid-new{
+    color:rgb(100, 99, 99); 
+    margin :auto; 
+    width: 0;
+  }
+

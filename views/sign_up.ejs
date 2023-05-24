@@ -17,11 +17,11 @@
         <h2>JOIN</h2>
         <form action="/sign" method="post" onsubmit="return check();">
           <div class="user-box">
-            <input type="text" name="name" id = "text" maxlength="10" minlength="2">
+            <input type="text" name="name" id = "text" placeholder="자신의 이름을 적어주세요" maxlength="10" minlength="2">
             <label>Username</label>
           </div>
           <div class="user-box">
-            <input type="text" name="Email" id="text" required="">
+            <input type="text" name="Email" id="text" placeholder="@이까지 써주세요">
             <label>Email</label>
           </div>
           <div class="user-box">
@@ -29,7 +29,7 @@
             <label>ID</label>
           </div>
           <div class="user-box">
-            <input type="password" name="pw" id="text" maxlength="16" minlength="4">
+            <input type="password" name="pw" id="text" placeholder="4자이상 16자 이하까지 작성해주세요" maxlength="16" minlength="4">
             <label>Password</label>
           </div>
           <input type = "submit" id = "submitinput"value = "SUBMIT">

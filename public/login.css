@@ -21,6 +21,7 @@ html {
     border-radius: 10px;
   }
   
+  
   .login-box h2 {
     margin: 0 0 30px;
     padding: 0;
@@ -35,7 +36,7 @@ html {
   .login-box .user-box input {
     width: 100%;
     padding: 10px 0;
-    font-size: 16px;
+    font-size: 15px;
     color: rgb(206, 180, 180);
     margin-bottom: 30px;
     border: none;
@@ -61,7 +62,8 @@ html {
     color: #adaa4b;
     font-size: 12px;
   }
-  
+
+
   #submitinput {
     
     position: relative;

@@ -29,16 +29,16 @@
     
     <form class="form-horizontal" action="/addwirte" method="post" enctype="multipart/form-data"> 
 
-        <div class="form-group">
+        <div class="form-group" id="pocatitle">
+          <div calss="categorygroup">
           <label >제목</label>
           <input type="text" class="form-control"  name = "pocatitle">
         </div>
-        
-        
+        </div>    
      <div class="form-group" id="border" >
         <div calss="categorygroup">
-                <label class="control-label col-lg-4" for="group"> Category Group</label>
-                <div class="col-lg-6">
+                <label class="control-label" for="group"> Category Group</label>
+                <div class="group-select">
                     <select name="group" id="group" class="form-control">
             </select>
             </div>
@@ -46,16 +46,16 @@
             
 
         <div class="categoryissue">
-            <label class="control-label col-lg-4" for="issue">Category Issue</label>
-            <div class="col-lg-6">
+            <label class="control-label" for="issue">Category Issue</label>
+            <div class="group-select">
                 <select name="issue" id="issue" class="form-control">
             </select>
             </div>
         </div>
 
         <div class="categorydetail">
-            <label class="control-label col-lg-4" for="detail">Category Detail</label>
-            <div class="col-lg-6">
+            <label class="control-label" for="detail">Category Detail</label>
+            <div class="group-select">
                 <select name="detail" id="detail" class="form-control">
             </select>
             </div>
@@ -63,25 +63,25 @@
                 
     </div>   
         
-        <div class="form-group">
+        <div class="form-group" id = "price-group">
             <label >가격</label>
             <input type = "text" class="form-control" name="price" placeholder="숫자만 입력">
         </div>
         
-        <div class="form-group">
+        <div class="form-group" id = "data-group">
             <label >설명</label>
-            <input type = "text" class="form-control" name="explanation" style="height: 100px;" placeholder="상품의 하자 등 필요한 정보는 꼭 작성해주세요">
+            <input type = "text" class="form-control" name="explanation"  placeholder="상품의 하자 등 필요한 정보는 꼭 작성해주세요">
         </div>
         <div class="form-group">
 
-          <lavel>이미지 등록</lavel> <br>
+          <label>이미지 등록</label> <br>
             <input type="file" name="picture">
             <span id ="file-warring" >  <-- jpg,png파일만 등록해주세요!</span>
 
         </div>
-
-        <input type="submit" class="btn btn-outline-secondary"  value="저장하기">
-
+        <div class = "btnclass">
+          <input type="submit" class="btn btn-outline-secondary"  value="저장">
+        </div>
 
 
         
