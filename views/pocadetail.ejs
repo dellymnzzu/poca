@@ -16,10 +16,6 @@
 
 
 
-    
-</div>
-</div>
-</nav>
 <!-- Product section--> 
 <section class="py-5">
 <div class="container px-4 px-lg-5 my-5">
@@ -69,36 +65,9 @@
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script>
-    
-    $('#chat').click(function(e){
-        var _id = e.target.dataset.id;
-        console.log(_id);
-        var id = document.getElementById("chatroom");
-        var id1 = $(id).text();
-      
-     
-        $.post('/chat',{chatroomid:_id,chatroomname:id1}).then((data)=>{
-        
-           
-        })
-        
-        })
-    
-    $('#like').click(function(e){
-        var Data = e.target.dataset.id;
-       content= document.getElementById('content');
-       var count = content.dataset.id;
+<script type="text/javascript" src="/javascripts/pocadetail.js"></script>
 
-        $.post('/like',{id:Data,_id:count}).then((data)=>{     
-        })       
-    });
-    
-    
-    
-    
 
-</script>
 
 <!-- Optional JavaScript; choose one of the two! -->
 
