@@ -7,24 +7,20 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" href="/public/pocadetail.css">
+    <link rel="stylesheet" href="../page/pocadetail/pocadetail.css">
     <title>BUTTERFIY</title>
   </head>
   <body>
 
-    <%- include('nav.html') %>
+    <%- include('../../public/nav/nav.html') %>
 
 
 
-    
-</div>
-</div>
-</nav>
 <!-- Product section--> 
 <section class="py-5">
 <div class="container px-4 px-lg-5 my-5">
 <div class="row gx-4 gx-lg-5 align-items-center" >
-    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="<%= `/public/image/${contents.이미지}` %>" alt="<%= contents.이미지 %>" /></div>
+    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="<%= `./public/userImage/${contents.이미지} %>" alt="<%= contents.이미지 %>" /></div>
     <div class="col-md-6">
         <div class="small mb-1"><%= contents.대분류 %> / <%= contents.middle %> / <%= contents.소분류 %></div>
         <h1 class="display-5 fw-bolder" id = "content"data-id = "<%= contents._id %>"><%= contents.제목 %> <%= contents.조회수 %></h1>
@@ -69,36 +65,9 @@
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script>
-    
-    $('#chat').click(function(e){
-        var _id = e.target.dataset.id;
-        console.log(_id);
-        var id = document.getElementById("chatroom");
-        var id1 = $(id).text();
-      
-     
-        $.post('/chat',{chatroomid:_id,chatroomname:id1}).then((data)=>{
-        
-           
-        })
-        
-        })
-    
-    $('#like').click(function(e){
-        var Data = e.target.dataset.id;
-       content= document.getElementById('content');
-       var count = content.dataset.id;
+<script type="text/javascript" src="../page/pocadetail/pocadetail.js"></script>
 
-        $.post('/like',{id:Data,_id:count}).then((data)=>{     
-        })       
-    });
-    
-    
-    
-    
 
-</script>
 
 <!-- Optional JavaScript; choose one of the two! -->
 

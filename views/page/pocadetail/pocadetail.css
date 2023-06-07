@@ -1,0 +1,60 @@
+
+    .content-detail{
+        text-align : left !important;
+    }
+    .discount{
+        font-size: 1.2em;
+        text-align: left ;
+        text-decoration: line-through;
+    }
+    .price{
+        font-size: 1.7em;
+        text-align: left;}
+    
+
+    .row{
+        border-bottom : 1px solid black;
+        padding-bottom : 100px;
+        margin-bottom : 50px;
+       
+    }
+
+    h4{
+        font-size : 17px;
+        font-weight: bold;
+        padding-bottom : 20px;
+
+    }
+
+    p{
+
+        padding-top: 10px;
+    }
+    .lead{
+        flex-grow: 1;
+        width: 70%;
+        border-right: 1px solid #f7f1c3;
+    }
+
+
+    .information{
+        margin-left: 20px;
+        flex-grow: 1;
+        width: 30%;
+    }
+
+    #heart{
+        
+        color: #505052;
+    }
+
+   .text-decoration-line-through{
+    color:brown;
+   }
+   #poca-center{
+    display: flex; 
+    flex-direction: row; 
+    height: 200px;
+    
+   }
+    

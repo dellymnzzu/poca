@@ -1,0 +1,11 @@
+.catainer .card{
+    width: 100%;
+}
+
+.catainer .card-btn{
+    display: block;
+}
+
+.comment #data-none{
+    display: none;
+}

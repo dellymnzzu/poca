@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+  <link rel="stylesheet" href="./page/chat/chat.css">
+  <title>BUTTERFIY</title>
+</head>
+
+<body>
+    <%- include('../../public/nav/nav.html') %>
+
+  <div class="container p-4 detail">
+
+    <div class="row">
+      <div class="col-3">
+        <ul class="list-group chat-list">
+          <% for (var i=0; i < chatlist.length ; i++){ %>
+            <button class="room1"data-id="<%= chatlist[i].id %>">
+              <h6>
+                <%= chatlist[i].title %>
+              </h6>
+              
+            </button>
+            <% } %>
+        </ul>
+      </div>
+      </div>
+ 
+    
+
+  
+  <h1>채팅방</h1>
+
+
+
+  <div id = "chatting">
+        <div class = "content"></div>
+    <input id="input1" >
+
+    </div>
+    <div id = "sendBox">
+      <button id ="room1-send">보내기</button>
+</div>
+  </div>
+
+
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.0/socket.io.js" integrity="sha512-rwu37NnL8piEGiFhe2c5j4GahN+gFsIn9k/0hkRY44iz0pc81tBNaUN56qF8X4fy+5pgAAgYi2C9FXdetne5sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script type="text/javascript" src="./page/chat/chat.js"></script>
+  
+
+
+  <!-- Optional JavaScript; choose one of the two! -->
+
+  <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+    crossorigin="anonymous"></script>
+
+
+
+</body>
+
+</html>
