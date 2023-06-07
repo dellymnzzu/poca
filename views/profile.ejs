@@ -10,7 +10,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-  <link rel="stylesheet" href="/public/profile.css">
+  <link rel="stylesheet" href="../public/stylesheets/profile.css">
   
 
   <title>BUTTERFIY</title>
@@ -51,31 +51,9 @@
     </body>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script>
+    <script type="text/javascript" src="../public/javascript/profile.js"></script>
 
-
-    $('#delete').click(function(e){
-      var Data = e.target.dataset.id;
-      if(Data){
-        alert("정말 탈퇴하시겠습니까?");
-      }
-      
-      $.ajax({
-        method:'DELETE',
-        url:'./profile/delete',
-        data:{_id:Data}
-
-      }).done((result)=>{
-        alert('탈퇴되었습니다.');
-        window.location='/';
-      
-    }).fail((xhr,code,err)=>{
-      console.log(err);
-      //AJAX 실패시 실행할 코드적기
-    });
-  });
-
-</script>
+  
 
 
     <!-- Optional JavaScript; choose one of the two! -->

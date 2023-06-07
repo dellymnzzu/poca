@@ -7,16 +7,17 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <link rel="stylesheet" href="/public/index.css">
-    <link rel="stylesheet" href="/public/newmodule.css">
+    <link rel="stylesheet" href="../public/stylesheets/index.css">
+    <link rel="stylesheet" href="../public/stylesheets/newmodule.css">
 
 
 
     <title>BUTTERFIY</title>
   </head>
   <body>
-
     <%- include('nav.html') %>
+
+    
 
 
     <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -54,7 +55,7 @@
       <div class="col-md-3 col-sm-7">
         <div class="card card-block">
         
-      <img src="./images/3.jpg"  OnClick="location.href ='/best'" alt="Photo of sunset">
+      <img src="../../images/3.jpg"  OnClick="location.href ='/best'" alt="Photo of sunset">
           <h5 class="card-title">BEST</h5>
           <p class="card-text">가장 인기 많은 포카</p>  
     </div>
@@ -62,7 +63,7 @@
       <div class="col-md-3 col-sm-7">
         <div class="card card-block">
         
-      <img src="./images/2.jpg"  OnClick="location.href ='/new'" alt="Photo of sunset">
+      <img src="../../images/2.jpg"  OnClick="location.href ='/new'" alt="Photo of sunset">
           <h5 class="card-title">NEW</h5>  
           <p class="card-text">최신 업데이트 포카</p> 
     </div>
@@ -70,7 +71,7 @@
       <div class="col-md-3 col-sm-7">
         <div class="card card-block">
         
-      <img src="./images/1.jpg"  OnClick="location.href ='/bestLike'" alt="Photo of sunset">
+      <img src="../../images/1.jpg"  OnClick="location.href ='/bestLike'" alt="Photo of sunset">
           <h5 class="card-title ">LIKE</h5>
           <p class="card-text">찜이 가장 많은 포카</p> 
     </div>
@@ -80,7 +81,7 @@
         <div class="card card-block">
           <form action="/chat" method="POST"> 
             <button type = "submit" class ="cardTitle">
-          <img src="./images/4.jpg"  id = "chat"  alt="Photo of sunset">
+          <img src="../../images/4.jpg"  id = "chat"  alt="Photo of sunset">
           <h5 class="card-title ">1:1</h5> 
           <p class="card-text">채팅</p> 
           </button>

@@ -22,13 +22,13 @@ function 로그인했니(req, res, next) {
   if (req.user) {
     next();
   } else {
-    res.render("./page/login/login");
+    res.render("login");
   }
 }
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/userImage");
+    cb(null, "./public/image");
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname); // 파일명을 다이나믹하게 작명하고 싶을때! +'날짜' +new data()
@@ -84,7 +84,7 @@ app.get("/", (req, res) => {
         console.log("서버" + error);      
       }                                   
       console.log("8080서버 열림");    
-      res.render("./page/main/index.ejs", { Module: result });  // index.ejs 유지
+      res.render("index.ejs", { Module: result });  // index.ejs 유지
     });  //db로 이동
 });
 //index페이지
@@ -94,18 +94,18 @@ app.get("/newmodule/:id", (req, res) => {
     { _id: parseInt(req.params.id) },
     (error, result) => {
       if (error) return console.log("error");
-      res.render("./public/newmodule/newmodule.ejs", { Module: result });
+      res.render("newmodule.ejs", { Module: result });
     }
   );
 });
 //포카모듈
 
 app.get("/sign_up", (req, res) => {
-  res.render("./page/sign_up/sign_up.ejs"); //회원가입페이지
+  res.render("sign_up.ejs"); //회원가입페이지
 });
 
 app.get("/login", (req, res) => {
-  res.render("./page/login/login.ejs"); //로그인페이지 만들기
+  res.render("login.ejs"); //로그인페이지 만들기
 });
 
 app.post(
@@ -155,14 +155,14 @@ passport.deserializeUser(function (아이디, done) {
 });
 //아이디,비번 미들웨어
 app.get("/about", (req, res) => {
-  res.render("./page/about/about.ejs");
+  res.render("about.ejs");
 });
 //about페이지
 app.get("/mypage", 로그인했니, (req, res) => {
   db.collection("content")
     .find({ likeid: req.user.id })
     .sort({ 시간: -1 })    .toArray((error, result) => {
-      res.render("./page/mypage/mypage.ejs", {
+      res.render("mypage.ejs", {
         id: req.user,
         Module: result,
         contents: result,
@@ -175,7 +175,7 @@ app.get("/mypage/products", 로그인했니, (req, res) => {
   db.collection("content")
     .find({ 작성자: req.user.id })
     .toArray((error, result) => {
-      res.render("./page/product/product.ejs", { id: req.user, Module: result, contents: result });
+      res.render("product.ejs", { id: req.user, Module: result, contents: result });
     });
 }); // 마이페이지 중 내상품 페이지
 
@@ -183,7 +183,7 @@ app.get("/mypage/profile", 로그인했니, (req, res) => {
   db.collection("login")
     .findOne({ _id: req.user._id },(error, result) => {
       console.log(result);
-      res.render("./page/profile/profile.ejs", { profile: result });
+      res.render("profile.ejs", { profile: result });
     });
 });
 
@@ -206,7 +206,7 @@ app.post("/sign", (req, res) => {
 }); // 회원가입
 
 app.get("/write", 로그인했니, (req, res) => {
-  res.render("./page/write/write.ejs");
+  res.render("write.ejs");
 }); //글쓰기페이지
 
 app.post("/add", (req, res) => {
@@ -244,7 +244,7 @@ app.get("/qna", (req, res) => {
     .find()
     .sort({ 시간: -1 })
     .toArray(function (error, result) {
-      res.render("./page/qna/qna.ejs", { posts: result });
+      res.render("qna.ejs", { posts: result });
     });
 }); //qna 페이지
 
@@ -256,7 +256,7 @@ app.get("/detail/:id", 로그인했니, (req, res) => {
         .find({ 글번호: req.params.id })
         .sort({ 시간: -1 })
         .toArray((error, result2) => {
-          res.render("./page/detail/detail.ejs", {
+          res.render("detail.ejs", {
             data: result,
             commentdata: result2,
             dataid: req.user,
@@ -299,13 +299,13 @@ app.get("/search", (req, res) => {
       if (error) console.log(result); //aggregate : 검색조건 여러개 가능
       console.log(result);
 
-      res.render("./page/search/search.ejs", { posts: result });
+      res.render("search.ejs", { posts: result });
     });
 }); // 서치페이지
 
 app.get("/scam",(req,res)=>{
  
-    res.render("./page/scamInput/scamInput.ejs");
+    res.render("scamInput.ejs");
 
   })
 
@@ -313,21 +313,21 @@ app.get("/scam/search",(req,res)=>{
   console.log(req.query.input);
   db.collection("scam").findOne({input:req.query.input},(error,result)=>{
     if(result){
-      res.render("./page/scamInput/scamInput.ejs");
+      res.render("scamInput.ejs");
 
     }
     else{
-      res.render("./page/scamInput/scamInput.ejs");
+      res.render("scamInput.ejs");
 
     }
     console.log(result);
-    res.render("./page/scamInput/scamInput.ejs");
+    res.render("scamInput.ejs");
 
   })
 })
 app.get("/scam/add", (req, res) => {
     db.collection("scam").insertOne({choice:req.query.Choice,input:req.query.keyword},(error,result2)=>{
-      res.render("./page/scamInput/scamInput.ejs");
+      res.render("scamInput.ejs");
   })
 })
 
@@ -341,7 +341,7 @@ app.get("/best", (req, res) => {
       if (error) {
         console.log(error);
       }
-      res.render("./page/best/best.ejs", { Module: result });
+      res.render("best.ejs", { Module: result });
     });
 }); //베스트 페이지
 
@@ -354,7 +354,7 @@ app.get("/new", (req, res) => {
         console.log(error);
       }
 
-      res.render("./page/new/new.ejs", { Module: result });
+      res.render("new.ejs", { Module: result });
     });
 }); // 새페이지
 
@@ -369,7 +369,7 @@ app.get("/poca", (req, res) => {
             console.log(error);
           }
 
-          res.render("./page/poca/poca.ejs", { poca: result, category: result2 });
+          res.render("poca.ejs", { poca: result, category: result2 });
         });
     });
 }); // poca페이지
@@ -388,7 +388,7 @@ app.get("/poca/:middle", (req, res) => {
           if (error) {
             console.log(error);
           }
-          res.render("./page/poca/poca.ejs", { poca: result2, category: result }); //변수 여러개 줘도 상관 없음, result==category
+          res.render("poca.ejs", { poca: result2, category: result }); //변수 여러개 줘도 상관 없음, result==category
         });
     }); //제목 없이 글쓰기 금지
 });
@@ -399,7 +399,7 @@ app.get("/poca/:middle", (req, res) => {
 
 
 app.get("/pocawrite", 로그인했니, (req, res) => {
-  res.render("./page/pocawrite/pocawrite.ejs");
+  res.render("pocawrite.ejs");
 });
 
 app.post("/addwirte", upload.single("picture"), (req, res) => {
@@ -449,7 +449,7 @@ app.get("/pocadetail/:id", (req, res) => {
       );
 
       // console.log(result);
-      res.render("./page/pocadetail/pocadetail.ejs", { contents: result });
+      res.render("pocadetail.ejs", { contents: result });
     }
   );
 });
@@ -460,7 +460,7 @@ app.post("/like", (req, res) => {
 
   if (!req.user) {
     //로그인 안됨
-    return res.render("./page/login/login.ejs");
+    return res.render("login.ejs");
   } // 리턴을 사용하면 끝나는 부분
 
   if (Data === data) {
@@ -506,7 +506,7 @@ app.get("/bestLike", (req, res) => {
     .find()
     .sort({ 좋아요: -1 })
     .toArray((error, result2) => {
-      res.render("./page/bestLike/bestLike.ejs", { Module: result2 });
+      res.render("bestLike.ejs", { Module: result2 });
       console.log(result2);
     });
 }); // 찜페이지
@@ -533,16 +533,16 @@ app.post("/chat", 로그인했니, (req, res) => {
           db.collection("chatroom")
           .insertOne(save)
           .then((result3) => {   //result2와 비슷  
-        res.render("./page/chat/chat.ejs",{chatlist:result,chatting:result3,name:req.user});
+        res.render("chat.ejs",{chatlist:result,chatting:result3,name:req.user});
       });
         }
         else{
-        res.render("./page/chat/chat.ejs",{chatlist:result,chatting:result2,name:req.user});
+        res.render("chat.ejs",{chatlist:result,chatting:result2,name:req.user});
         }
       })
     } 
     else{
-    res.render("./page/chat/chat.ejs",{chatlist:result,chatting:null,name:req.user});
+    res.render("chat.ejs",{chatlist:result,chatting:null,name:req.user});
     }
    });
 }); // 전체 채팅방
