@@ -2,13 +2,17 @@
 
 
 var Username = $('#Username').val();
-      console.log(Username);
-      var name = $('#commentwriter').val();
-      console.log(name);
-  if(Username===name){
+    console.log(Username);
+var myname = $('#commentwriter').val();
+    console.log(myname);
+  if(Username===myname){
     $('#delete').show();
     $('#update').show();
-    
+  }
+  else{
+    $('#delete').hide();
+    $('#update').hide();
+
   }
  
   

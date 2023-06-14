@@ -12,6 +12,8 @@
     font-size: 4mm; 
     color:rgb(255 206 196); 
     line-height:1;
+    border:none;
+    background-color:#FBF8B4;
 }
 
 .navbar-height .navbar-brand .nav-item .bi{
@@ -24,11 +26,18 @@
 }
 
 .navbar-middle .navbar-brand{
+    color: #007bff;
     font-size:30px; 
     font-weight: 900; 
     margin-left : 540px;
     margin-top:50px;
+    border:none;
+    background-color: white;
   
+}
+
+.navbar-middle .navbar-brand:hover{
+    color:#0464ca;
 }
 .navbar-middle .search-navbar{
     border-radius : 10px; 
@@ -37,6 +46,10 @@
     margin-top : -43px;
     position: absolute;
     right: 7%;
+}
+.navbar-bottom{
+    border:1px solid #e0dcae75; 
+    background-color : white;  
 }
 
 .navbar-bottom .navbar-nav .nav-item .nav-link{
@@ -51,4 +64,8 @@
     display: block;
 }
 
+.navbar-nav .nav-item button{
+    border:none;
+    background-color:white;
+}
 

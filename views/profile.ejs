@@ -18,7 +18,7 @@
 
 <body>
 
-  <%- include('nav.html') %>
+  <%- include('./nav.html') %>
 
 
 
@@ -41,6 +41,10 @@
           <div class="user-box">
             <span>*</span><label>Password(비밀번호)</label>
             <input type="password" name="pw" required="">
+          </div>
+          <div class="user-box">
+            <span>*</span><label>Password(한번 더 입력)</label>
+            <input type="password" name="rePW" required="">
           </div>
         <div class ="profile-btn">
           <input type="submit" id="submit" value="수정">

@@ -18,59 +18,75 @@
   <body>
     
     
-    <%- include('nav.html') %>
+    <%- include('./nav.html') %>
 
 
 
   
  
-  <div class = "catainer mt-4">  
-    <h3 class = "text-left pb-2">상세페이지</h3>
+  <div class = "catainer">  
+    <h3 class = "qnaDetail">상세페이지</h3>
     
-    <div class="card" >
-        <div class="card-header" id="header" name = "title">
+    <div class="card">
+      <div class = "catainer-box">
+        <label>제목:</label>
+        <div class="card-title" id="header" name = "title">
            <%= data.제목 %>
         </div>
-        
+      </div>
+      <div class = "catainer-box">
+        <label>작성자:</label>
+        <div class="card-name">
+          <%= data.작성자 %>
+       </div> 
+      </div>
 
-        <div class="card-btn">
-          <button id="update" data-id="<%= data._id %>"  >수정</button>
-          <button id="delete" data-id="<%= data._id %>" >삭제</button>
-        </div>
 
         <div class="card-body">
-          <div class="blockquote mb-0" name = "data">
+          <div class="body-data" name = "data">
             <p id = "body"> <%= data.내용 %> </p>
-            
-         
           </div>
+          
         </div>
+        
+      </div>
+      <div class="card-btn">
+        <button id="update" data-id="<%= data._id %>"  >수정</button>
+        <button id="delete" data-id="<%= data._id %>" >삭제</button>
+      </div>
+      
+      <div class = comment>
+        <% for (let i=0; i < commentdata.length; i++){ %>
+          <ul class="list-group-comment" value="<%= data._id %>">
+            <li class="list-group-item-comment">
+              <span><%= commentdata[i].댓글작성자 %></span>
+              <p><%= commentdata[i].댓글 %></p>
+            </li>
+          </ul>  
+          <%  } %>
         
         <form action="/comment" method="post">
 
-          <div class = comment>
             <div id ="data-none">
-            
               <input type="text" id="Username" value="<%= data.작성자 %>" >
               <input type="text" name="parentnumber" value="<%= data._id %>" >
             </div>
-              <label>내 아이디</label>
+
+            <div class="comment-box">
               <input type="text" id="commentwriter" value="<%= dataid.id %>">
-            <textarea id="comment" name="comment" placeholder="내용 입력" required=""></textarea>
-            <button class="btn" data-id="<%= data._id %>">댓글 달기</button>
+            </div> 
+            <div class = "comment-box">
+              <textarea id="comment" name="comment" placeholder="내용 입력" required=""></textarea>
+            </div>
+            <div class = "comment-btn">
+              <button class="button" data-id="<%= data._id %>">등록</button>
+            </div>
             
-          </div>
-        </form>
-        
-        <% for (let i=0; i < commentdata.length; i++){ %>
-        <ul class="list-group" value="<%= data._id %>">
-             <li class="'list-group-item">
-                <p ><%= commentdata[i].댓글작성자 %>: <%= commentdata[i].댓글 %></p>
-             </li>
-             <%  } %>
-          </ul>  
+          </form>
+        </div>
           
-    </div>
+            
+         
   </div>
 
   

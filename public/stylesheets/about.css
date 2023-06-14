@@ -134,6 +134,9 @@ p{
 
 
 .navbar-brand-watermarke{
+  border:none;
+  background-color: transparent;
+  color:#007bff;
   font-size:27px;
   font-weight: 800; 
    float:right;

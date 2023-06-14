@@ -1,11 +1,130 @@
+.catainer{
+    margin: 0 50px 50px;
+}
+.catainer .qnaDetail{
+    text-align: center;
+    color:rgb(100, 99, 99);
+    padding-top: 40px;
+    padding-bottom: 40px;
+    font-weight: bolder;
+    font-size : 20px;
+}
+
 .catainer .card{
-    width: 100%;
+    border:none;
+    border-top:1px solid rgba(168, 163, 163, 0.72);
+    border-bottom:1px solid rgba(168, 163, 163, 0.72);
+
+}
+.card .catainer-box{
+    padding:13px 8px 8px;
+    border-bottom: 1px solid rgba(168, 163, 163, 0.72);
+    
+}
+.card .catainer-box label{
+    display: inline-block;
+    width: 60px;
+    font-size: 13px;
+    font-weight: bold;
+    margin-left:10px;
+}
+.card .catainer-box .card-title{
+    display: inline-block;
+    margin: 0;
+    margin-left:10px;
+    font-size: 13px; 
+}
+.card .catainer-box .card-name{
+    display: inline-block;
+    margin-left:10px;
+
+ 
+}
+.catainer .card-body{
+    padding: 40px 20px;
 }
 
 .catainer .card-btn{
-    display: block;
+    justify-content: center;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom:10px;
+    text-align: end;
+  
 }
+
+.catainer .card-btn #update{
+    width: 70px;
+    border :1px solid rgba(168, 163, 163, 0.72);
+
+}
+.catainer .card-btn #delete{
+    width:70px;
+    border :1px solid rgba(168, 163, 163, 0.72);
+
+}
+.comment{
+    
+    border-radius: 5px;
+    background-color: #fbf7b4b4;
+    padding: 5px 25px;
+}
+
+.comment .list-group-comment{
+    list-style:none;
+    border-bottom:1px solid rgba(168, 163, 163, 0.72);
+    padding:10px 0;
+    margin:0;
+    font-weight: 500;
+}
+.comment .list-group-comment p{
+    margin:0;
+    color:grey;
+}
+
 
 .comment #data-none{
     display: none;
 }
+
+.comment form{
+    margin: 15px 0;
+    padding: 10px 20px;
+    background-color: #ffffff;
+}
+
+.comment .comment-box #commentwriter{
+    border:none;
+    font-size:17px;
+    font-weight: 500;
+    
+   
+}
+.comment .comment-box #comment{
+    font-size:14px;
+   border:none;
+    width:1150px;
+    height: 100px;
+}
+
+.comment .comment-box #comment:hover{
+    border:1px solid rgba(39, 37, 37, 0.72);
+}
+
+.comment .comment-btn{
+    margin: 0 -10px ;
+    margin-top:10px;
+    border-top:1px dashed rgba(168, 163, 163, 0.72);
+    text-align: end;
+}
+
+.comment .comment-btn .button{
+    margin-top:10px;
+    border :2px solid #d6d25e; 
+    background-color:#FBF8B4;
+    width:70px;
+    
+    
+}
+
+
