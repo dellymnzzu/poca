@@ -2,7 +2,6 @@
 
 
 var socket = io();
-
    
 $("#room1-send").click(function () {
   socket.emit("room1-send",$("#input1").val());

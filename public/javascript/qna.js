@@ -6,4 +6,5 @@ $('#search').click(function(){
     window.location.replace('/search?value='+입력한값)   // url을 바꿔주세요
     
   })
-  
+
+

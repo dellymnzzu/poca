@@ -15,6 +15,17 @@ table {
     font-weight: 400;
     text-align: center;
   }
+
+  .pagenationCenter {
+    margin-top:50px;
+    margin-left:14.5cm;
+    border-color : #333333;
+  }
+  
+  .page-link {
+    color : rgba(49, 48, 48, 0.822);
+    font-size: 15px;
+  }
   
   #board-search .search-window {
     padding: 15px 0;
@@ -71,6 +82,10 @@ table {
   .board-table th {
     text-align: center;
   }
+  .board-table .ediy{
+    border: none;
+    background-color: transparent;
+  }
   
   .board-table .th-num {
     width: 100px;
@@ -94,7 +109,7 @@ table {
     padding-left: 28px;
     padding-right: 14px;
     border-top: 1px solid #e7e7e7;
-    text-align: left;
+    text-align: center;
   }
   
   .board-table tbody th p{
@@ -154,31 +169,10 @@ table {
     border-color: #373737;
     color: #fff;
   }
-  
-  /* reset */
-  
-  * {
-    list-style: none;
-    text-decoration: none;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-  }
-  .clearfix:after {
-    content: '';
-    display: block;
-    clear: both;
-  }
+
   .container {
     width: 1100px;
     margin: 0 auto;
   }
-  .blind {
-    position: absolute;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    margin: -1px;
-    width: 1px;
-    height: 1px;
-  }
+
   

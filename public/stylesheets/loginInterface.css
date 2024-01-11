@@ -100,3 +100,9 @@ html {
  
   }
 
+  .text--center #sign_up{
+    border: none;
+    background-color: transparent;
+
+  }
+

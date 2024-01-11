@@ -1,18 +1,23 @@
 
 
 
-.thumbnail{
+#anchorBoxId_10013 .box{
     display:inline-block;
     list-style: none;
-    
-    
-    
-
+    margin-left:47px;
 }
-.thumbnail img{
+
+
+.pocaImg img{
   width: 200px;
   height:200px;
   margin: 10px 30px;
+}
+
+.prdImg .pocaImg{
+    background-color: transparent;
+    list-style: none;
+    border:none;
 }
 
 
@@ -21,17 +26,31 @@
     border-bottom: 1px solid #ebebeb; 
     padding-bottom: 6px;
     margin-left: 30px;
+
+    
+    
+    
+}
+.description .name .hit{
+    background-color: transparent;
+    border:none;
+    
 }
 
 .description .name #total{
+
     font-size: 15px; 
+    margin-right: 30px;
     color: #bb7f65; 
+
     
   
 }
 
 
+
 .description .name #newmodule-title{
+    
     font-size: 20px; 
     color: #000000; 
     font-weight: bold;
@@ -39,22 +58,20 @@
 }
 
 .xans-record-{
+    margin-top:8px;
     list-style: none;
-  
-    font-size: 15px; 
+    font-size: 19px; 
     color: #000000; 
+    font-weight: 498;
+    display:inline-block;
+    list-style: none;
+    
     
     
   
 }
 
-#anchorBoxId_10013{
-    list-style: none;
-    margin-left:100px;
-    
 
-      
-}
 
 
 

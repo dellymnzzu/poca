@@ -61,7 +61,7 @@
                         </td>
                         <th>
                           
-                          <a href='/detail/'+'<%= posts[i]._id %>'" class="titledetail" data-id="<%= posts[i]._id %>"><%= posts[i].제목%></a>
+                          <button class="titledetail" data-id="<%= posts[i]._id %>"><%= posts[i].제목%></button>
                           
                         </th>
                         <td><%= posts[i].날짜%></td>
@@ -73,7 +73,7 @@
                   </tbody>
                 </table>
               </div>
-              <button type="submit" onclick="location.href='/write'" float="right" class="btn btn-secondary">글쓰기</button>
+              <button type="submit" float="right" id = "searchWrite"class="btn btn-secondary">글쓰기</button>
             </div>
     
     </section>
@@ -84,6 +84,7 @@
   <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="../public/javascript/pagecontrol.js"></script>
   
   <script>
 

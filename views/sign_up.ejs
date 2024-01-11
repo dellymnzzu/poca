@@ -17,15 +17,15 @@
         <h2>JOIN</h2>
         <form action="/sign" method="post" onsubmit="return check();">
           <div class="user-box">
-            <input type="text" name="name" id = "text" placeholder="자신의 이름을 적어주세요" maxlength="10" minlength="2">
+            <input type="text" value="<%= DATA.name%>" name="name" id = "text" placeholder="자신의 이름을 적어주세요" maxlength="10" minlength="2">
             <label>Username</label>
           </div>
           <div class="user-box">
-            <input type="text" name="Email" id="text" placeholder="@이까지 써주세요">
+            <input type="text" value="<%= DATA.Email%>" name="Email" id="text" placeholder="@이까지 써주세요">
             <label>Email</label>
           </div>
           <div class="user-box">
-            <input type="text" name="id" id="text" required="" >
+            <input type="text" name="id" value="<%= DATA.id%>" id="text" required="" >
             <label>ID</label>
           </div>
           <div class="user-box">
@@ -42,29 +42,14 @@
         </form>
       </div>
       <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+      <script type="text/javascript" src="../public/javascript/sign_up.js"></script>
+
+
       <script>
        
 
 
-       function check(){
-        var Email = $("input[name=Email]").val();
-        var id = $("input[name=id]").val();
-        var Id=/^[a-zA-z0-9]{4,12}$/
-        var email = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-
-        if(!Id.test(id)){
-          alert("아이디는 영문 대소문자 4~12자리로 입력하세요");
-          return false;
-
-        }
-        if(!email.test(Email)){
-          alert("이메일 양식이 틀렸습니다 다시 입력해주세요.");
-          return false;
-        }
-      
-         
-      
-       }
+       
       
        
 //        그냥 태그에 아이디 또는 클래스만 주고
