@@ -82,12 +82,18 @@ router.get("/about", (req, res) => {
 });
 
 router.get("/qna", (req, res) => {
-  const page = req.query.page || 1; // 현재페이지 또는 1페이지
-  const perPage = req.query.perPage || 5;  // 현재 있는 게시글 수 || 10
-  database.PostFind(page,perPage).then((result)=>{
-    console.log(req.query.page+"    query.page");
-    console.log(req.params.page+"    params.page");
-    res.render("qna.ejs", { posts: result });
+  const currentPage = 1; // 현재페이지 또는 1페이지
+  const limit = 5;  // 현재 있는 게시글 수 || 10
+database.counterFindOne({name:"총게시물갯수"}).then((result1)=>{
+  var 총게시물갯수 = result1.totalPost;
+        console.log(총게시물갯수);
+  database.PostFind(currentPage,limit).then((result)=>{
+        console.log(currentPage);
+        
+
+
+      res.render("qna.ejs", { posts: result,page:result1 });
+  })
   })
 .catch((error)=>{
   console.log("qna=> "+error);

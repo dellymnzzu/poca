@@ -61,9 +61,9 @@ MongoCilent.connect("mongodb+srv://"+ process.env.DB_ID+":"+process.env.DB_PW+"@
         }); 
       })
   },
-  PostFind: function(page,perPage){
+  PostFind: function(currentPage,limit){
     return new Promise((resolve,reject)=>{
-      db.collection("post").find().sort({ 시간: -1 }).skip((page-1)*perPage).limit(perPage).toArray((error,result)=>{
+      db.collection("post").find().sort({ 시간: -1 }).skip((currentPage-1)*limit).limit(limit).toArray((error,result)=>{
         resolve(result);
         
         reject(new Error(error));
