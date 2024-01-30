@@ -5,31 +5,6 @@ const app = express();
 const router = express.Router();
 
 
-let multer = require("multer");
-
-
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/image");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname); // 파일명을 다이나믹하게 작명하고 싶을때! +'날짜' +new data()
-  },
-  fileFilter: function (req, file, callback) {
-    // 파일형식(확장자 거르기!)
-    var ext = path.extname(file.originalname);
-    if (ext !== ".png" && ext !== ".jpg" && ext !== ".jpeg") {
-      return callback(new Error("PNG, JPG만 업로드하세요"));
-    }
-    callback(null, true);
-  },
-  // limits:{     // 파일 사이즈!
-  //     fileSize: 1024 * 1024
-  // }
-});
-
-var upload = multer({ storage: storage });
-
 
 router.get("/login", (req, res) => {
   res.render("login.ejs"); //로그인페이지 만들기
@@ -46,53 +21,28 @@ router.get("/", (req, res) => {
     });
    }); //index페이지
 
-   router.post("/addwirte", upload.single("picture"), (req, res) => {
-    res.send("저장완료");
-    database.counterFindOne({contentName:"totalNumber"}).then((result)=>{
-      var totalNumber = result.totalContent;
-      var Save = {
-        _id: totalNumber + 1,
-        id: req.user._id,
-        작성자: req.user.id,
-        제목: req.body.pocatitle,
-        대분류: req.body.group,
-        middle: req.body.issue,
-        소분류: req.body.detail,
-        값: req.body.price,
-        설명: req.body.explanation,
-        좋아요: 0,
-        조회수: 0,
-        시간: new Date(),
-        이미지: req.file?.originalname ? req.file.originalname : null,
-      };
-    
-    database.contentInsertOne(Save).then((result1)=>{
-      database.counterUpdateOne("totalNumber").then((result2)=>{
-  
-      }).catch((error)=>{
-        console.log("addWirte error => "+error);
-        res.status(500).send("오류가 발생했습니다. 다시 접속해주세요.");
-        })
-    })
-  })
-  });
+
 
 router.get("/about", (req, res) => {
   res.render("about.ejs");
 });
 
 router.get("/qna", (req, res) => {
-  const currentPage = 1; // 현재페이지 또는 1페이지
-  const limit = 5;  // 현재 있는 게시글 수 || 10
+  var currentPage = req.query.page||1; // 현재페이지 또는 1페이지
+  var limit = 5;  // 현재 있는 게시글 수 || 10
+
 database.counterFindOne({name:"총게시물갯수"}).then((result1)=>{
-  var 총게시물갯수 = result1.totalPost;
-        console.log(총게시물갯수);
+
+
+  
+
+  
   database.PostFind(currentPage,limit).then((result)=>{
-        console.log(currentPage);
-        
+ 
+    
+      
 
-
-      res.render("qna.ejs", { posts: result,page:result1 });
+      res.render("qna.ejs", { posts: result,page:result1,currentPage:currentPage});
   })
   })
 .catch((error)=>{

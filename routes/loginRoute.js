@@ -6,70 +6,39 @@ const router = express.Router();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
-
-
-
-
-
-
+const login = require('./login.js');
 
 require('dotenv').config()
 
-function checkLogin(req, res, next) {
 
-  
-  if (req.user) {   // 브라우저에 세션이 있으면 넘어가
-    next();
-  } else {
-    console.log("실패!");
-    res.send('<script>alert("로그인을 해주세요."); window.location.replace("/login");</script>');
-  }
-}
+let multer = require("multer");
 
-router.use(session({
-  secret: 'process.env.DB_SECRET',
-  resave : false,    
-  saveUninitialized : false 
-})) 
-router.use(passport.session())
-router.use(passport.initialize())
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: "id",
-      passwordField: "pw",
-      session: true,
-      passReqToCallback: false,
-    },
-    function (입력한아이디, 입력한비번, done) {
-      // console.log("입력한 아이디 :" + 입력한아이디 + '\n'+"입력한 비번 :" + 입력한비번);
-     database.loginfindOne({id:입력한아이디}).then((result)=>{
-      if (!result)
-        return done(null, false, { message: "존재하지않는 아이디입니다." });
-      if (입력한비번 == result.pw) {
-        return done(null, result);
-      } else {
-        return done(null, false, { message: "다시 입력바랍니다." });
-      }      
-     }).catch((error)=>{
-      return done(error);
-     })
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/image");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // 파일명을 다이나믹하게 작명하고 싶을때! +'날짜' +new data()
+  },
+  fileFilter: function (req, file, callback) {
+    // 파일형식(확장자 거르기!)
+    var ext = path.extname(file.originalname);
+    if (ext !== ".png" && ext !== ".jpg" && ext !== ".jpeg") {
+      return callback(new Error("PNG, JPG만 업로드하세요"));
     }
-  )
-);
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
+    callback(null, true);
+  },
+  // limits:{     // 파일 사이즈!
+  //     fileSize: 1024 * 1024
+  // }
 });
-passport.deserializeUser(function (아이디, done) {
-  database.loginfindOne({id:아이디}).then((result)=>{
-    done(null,result);
-  });
-  
-});
+
+var upload = multer({ storage: storage });
 
 
 router.post(
-  "/login",
+  "/login",login,
   passport.authenticate("local", {
     failureRedirect: "/login" }),(req,res)=>{
       res.redirect('/');
@@ -87,10 +56,9 @@ router.post(
 
 
 
+router.get("/mypage",login,(req, res) => {
 
-router.get("/mypage",checkLogin,(req, res) => {
-
-  console.log(req.body.id+" mypagelogin");
+  console.log(req.user.id+" mypagelogin");
     database.contentFind({ likeid: req.user.id }).then((result)=>{
       res.render("mypage.ejs", {
         id: req.user,
@@ -106,7 +74,7 @@ router.get("/mypage",checkLogin,(req, res) => {
   });
 
 
-router.get("/mypage/products",checkLogin, (req, res) => {
+router.get("/mypage/products",login, (req, res) => {
 database.contentFind({작성자: req.user.id}).then((result)=>{
 res.render("product.ejs", { id: req.user, Module: result, contents: result });
 
@@ -118,7 +86,7 @@ res.status(500).send("오류가 발생했습니다.다시 접속해주세요.");
 }); // 마이페이지 중 내상품 페이지
 
 //여기서부터안함
-router.delete("/profile/delete",checkLogin, (req, res) => {
+router.delete("/profile/delete",login, (req, res) => {
     database.LoginDeleteOne({_id:req.body._id}).then((result)=>{
       res.render("profile.ejs", { profile: result });
     }).catch((error)=>{
@@ -128,7 +96,7 @@ router.delete("/profile/delete",checkLogin, (req, res) => {
    
   });
 
-router.put("/mypage/profile",checkLogin,(req,res)=>{
+router.put("/mypage/profile",login,(req,res)=>{
 
 database.LoginUpdate(req.user._id,req.body.name,req.body.Email,req.body.id,req.body.pw).then((result)=>{
     res.send(
@@ -141,7 +109,7 @@ database.LoginUpdate(req.user._id,req.body.name,req.body.Email,req.body.id,req.b
 
 
 
-router.get("/write",checkLogin, (req, res) => {
+router.get("/write",login, (req, res) => {
 console.log("req.user.id =>   "+req.user.id );
 
 let result = null;
@@ -163,7 +131,7 @@ console.log(req.user.id);
     
 
 
-router.get("/write/:id",checkLogin, (req, res) => {
+router.get("/write/:id",login, (req, res) => {
 // console.log(req.params.id);
 database.PostFindOne({_id:parseInt(req.params.id)}).then((result)=>{
     var writeInput={
@@ -182,7 +150,7 @@ database.PostFindOne({_id:parseInt(req.params.id)}).then((result)=>{
 })
 }); //글쓰기페이지
 
-router.get("/detail/:id",checkLogin, (req, res) => {
+router.get("/detail/:id",login, (req, res) => {
     database.PostFindOne({_id:parseInt(req.params.id)}).then((result)=>{
   
       database.commentFind({ 글번호: parseInt(req.params.id) }).then((result2)=>{
@@ -208,7 +176,7 @@ router.get("/detail/:id",checkLogin, (req, res) => {
      // qna 디테일 페이지
 
 
-router.post("/add",checkLogin,(req, res) => {
+router.post("/add",login,(req, res) => {
 var _id1 = parseInt(req.body.id); 
 
 
@@ -241,7 +209,7 @@ database.PostFindOne({_id:_id1}).then((result)=>{
 
   });
   
-router.post("/detail/delete",checkLogin, (req, res) => {
+router.post("/detail/delete",login, (req, res) => {
 
 database.postDeleteOne({_id:parseInt(req.body._id)}).then((result)=>{
 console.log(req.body._id +"삭제완료");
@@ -252,7 +220,7 @@ res.status(500).send("오류가 발생했습니다.다시 접속해주세요.");
 });
 
 
-router.post("/comment",checkLogin, (req, res) => {
+router.post("/comment",login, (req, res) => {
 var save = {
 댓글: req.body.comment,
 글번호: parseInt(req.body.parentnumber),
@@ -269,7 +237,7 @@ res.status(500).send("오류가 발생했습니다.다시 접속해주세요.");
 })
 }) // qna 댓글
 
-router.get("/scam/add",checkLogin, (req, res) => {
+router.get("/scam/add",login, (req, res) => {
 database.ScamInsertOne({choice:req.query.Choice,Username:req.query.keyword,id:req.user.id}).then((result)=>{
     res.send('<script>alert("신고되었습니다."); window.location="/";</script>');
 }).catch((error)=>{
@@ -279,10 +247,42 @@ database.ScamInsertOne({choice:req.query.Choice,Username:req.query.keyword,id:re
 })
 
 
-router.get("/pocawrite",checkLogin, (req, res) => {
+router.get("/pocawrite",login, (req, res) => {
 res.render("pocawrite.ejs");
 });
 
+
+
+router.post("/addwirte",login, upload.single("picture"), (req, res) => {
+  res.send("저장완료");
+  database.counterFindOne({contentName:"totalNumber"}).then((result)=>{
+    var totalNumber = result.totalContent;
+    var Save = {
+      _id: totalNumber + 1,
+      id: req.user._id,
+      작성자: req.user.id,
+      제목: req.body.pocatitle,
+      대분류: req.body.group,
+      middle: req.body.issue,
+      소분류: req.body.detail,
+      값: req.body.price,
+      설명: req.body.explanation,
+      좋아요: 0,
+      조회수: 0,
+      시간: new Date(),
+      이미지: req.file?.originalname ? req.file.originalname : null,
+    };
+  
+  database.contentInsertOne(Save).then((result1)=>{
+    database.counterUpdateOne("totalNumber").then((result2)=>{
+
+    }).catch((error)=>{
+      console.log("addWirte error => "+error);
+      res.status(500).send("오류가 발생했습니다. 다시 접속해주세요.");
+      })
+  })
+})
+});
 
 
 

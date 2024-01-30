@@ -22,9 +22,14 @@ table {
     border-color : #333333;
   }
   
-  .page-link {
+ a  {
+ 
     color : rgba(49, 48, 48, 0.822);
     font-size: 15px;
+  }
+
+  .page-link-num .on{
+    color : red;
   }
   
   #board-search .search-window {

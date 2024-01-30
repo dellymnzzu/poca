@@ -142,15 +142,18 @@ $(".ediy").click(function(e){
     window.location.assign('/detail/'+qnaEdiy);
 });
 
-$(".page-link-num").click(function(e){
-    var page = e.target.dataset.id;
-    window.location.replace('/search?value='+입력한값)   // url을 바꿔주세요
-    window.location.assign('/qna/'+page);
-});
+
 
 $("#qnaWrite").click(function(e){
     window.location.href="/write";
 });
+
+$("#page-linke").click(function(e){
+    window.location.href="/write";
+});
+
+
+
 
 //search.ejs
 

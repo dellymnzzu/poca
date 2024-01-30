@@ -77,24 +77,13 @@
                   </tbody>
                 </table>
               </div>
-              <button type="submit" id = "qnaWrite" float="right" class="btn btn-secondary">글쓰기</button>
+              <button type="submit"   id = "qnaWrite" float="right" class="btn btn-secondary">글쓰기</button>
             </div>
 
           <div class = pagenationCenter>
-            <ul class="pagination">
-              <li class="page-item">
-                <a class="page-link"  aria-label="Previous">
-                  <span aria-hidden="true">&laquo;</span>
-                </a>
-              </li>
-              <li class="page-item">
-                <a class="page-link-num" data-id = "<%=page.totalPost %>" ></a>
-              </li>
-              <li class="page-item">
-                <a class="page-link"  aria-label="Next">
-                  <span aria-hidden="true">&raquo;</span>
-                </a>
-              </li>
+            <ul class="pagination" data-id = "<%= currentPage %>">
+              <li class="page-item"></li>
+              <li class="page-link-num" data-id = "<%=page.totalPost %>" ></li>
             </ul>
           </div>
     
