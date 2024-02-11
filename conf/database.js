@@ -1,4 +1,4 @@
-const {ObjectId, Timestamp} = require('mongodb');
+const {ObjectId, Timestamp, Int32} = require('mongodb');
 const MongoCilent = require("mongodb").MongoClient; // mongo db
 
 var db;
@@ -179,6 +179,8 @@ PostFindOne: function(data){
         },
         contentInsertOne:function(save){
           return new Promise((resolve,reject)=>{
+            
+          
     
             db.collection("content").insertOne(save,(error,result)=>{
               resolve(result);
@@ -189,6 +191,9 @@ PostFindOne: function(data){
         },
         postInsertOne: function(data){
           return new Promise((resolve,reject)=>{
+           
+            
+
             db.collection("post").insertOne(data, (error, result) => {
               resolve(result);
               
@@ -198,6 +203,8 @@ PostFindOne: function(data){
         },
         commentInsertOne: function(data){
           return new Promise((resolve,reject)=>{
+            
+
             db.collection("comment").insertOne(data, (error, result) => {
               resolve(result);
               
@@ -207,6 +214,7 @@ PostFindOne: function(data){
         }, 
         ScamInsertOne: function(data){
           return new Promise((resolve,reject)=>{
+            
             db.collection("scam").insertOne(data, (error, result) => {
               resolve(result);
               
@@ -216,6 +224,7 @@ PostFindOne: function(data){
         },
         likeInsertOne: function(data){
           return new Promise((resolve,reject)=>{
+            
             db.collection("like").insertOne(data,(error,result)=>{
               resolve(result);
             
@@ -227,6 +236,8 @@ PostFindOne: function(data){
         
         chatroomInsertOne: function(data){
           return new Promise((resolve,reject)=>{
+           
+
             db.collection("chatroom").insertOne(data,(error,result)=>{
               resolve(result);
             
@@ -284,7 +295,7 @@ PostFindOne: function(data){
       let Title =null;
       let NumTitle=null;
       if(counting =="totalNumber") {
-        Title = { contentName: counting};
+        Title = { name: counting};
         NumTitle = { $inc: { totalContent: 1 } };
       }
       if(counting =="총게시물갯수"){

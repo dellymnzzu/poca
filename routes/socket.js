@@ -19,6 +19,7 @@ function socketRouter(io){
         title: req.body.chatroomname,   // 제목 : 상대방
         member: [ObjectId(req.body.chatroomid), req.user._id],   // 멤버 : 나와 상대방
         date: new Date(),  //시간
+        chat: null
       };  
       database.chatroomFind({ member: req.user._id }).then((result)=>{
         if(req.body.chatroomid){  // 만약 채팅 유저가 있다면,

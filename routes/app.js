@@ -193,48 +193,6 @@ router.get("/search", (req, res) => {
 
 
 
-router.get("/scam/search",(req,res)=>{
-  database.ScamFindOne(req.query.input).then((error)=>{
-    res.render("scamInput.ejs");
-  }).catch((error)=>{
-    console.log("scamSearch => "+error);
-    res.status(500).send("오류가 발생했습니다.다시 접속해주세요.");
-    })
-})
-
-router.post("/like", (req, res) => {
-  var Data = req.body.id; // 글 작성자 아이디
-  var data = req.user.id; // 로그인 한 아이디
-
-  if (!req.user) {
-    //로그인 안됨
-    return res.render("login.ejs");
-  } // 리턴을 사용하면 끝나는 부분
-
-  if (Data === data) {
-    console.log("자신의 게시물에는 좋아요를 누를 수 없음");
-  } else {
-    database.likeFindOne( {찜아이디: req.user.id, 게시물번호: parseInt(req.body._id)} ).then((result)=>{
-      database.contentFind({ _id: parseInt(req.body._id) }).then((result2)=>{
-        if(result){
-          database.likeDeleteOne({ 찜아이디: req.user.id });
-          database.contentUpdate( parseInt(req.body._id),data,'M');
-        } 
-        else{
-          var 저장 = {
-            게시물번호: parseInt(req.body._id),
-            찜아이디: req.user.id,
-            시간: new Date(),
-          };
-          database.likeInsertOne(저장).then((result3)=>{
-            
-            database.contentUpdate(parseInt(req.body._id),data,'P');
-          })
-        }
-      })
-    })
-  }
-}); //찜 구현
 
 router.post("/sign",(req,res)=>{
   var inputData = {

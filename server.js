@@ -58,19 +58,20 @@ app.post('/add',loginRouter);
 
 app.use('/search',appRouter);
 
-app.use('/scam/search',appRouter);
 
-app.use('/like',appRouter);
+app.use('/like',loginRouter);
 
 app.use('/sign',appRouter);
 
-app.use('/mypage',loginRouter);
+app.post('/profile/delete',loginRouter);
 
 app.get('/mypage',loginRouter);
 
-app.use('/mypage/products',loginRouter);
+app.get('/mypage/products',loginRouter);
 
-app.use('/mypage/profile',loginRouter);
+app.get('/mypage/profile',loginRouter);
+
+app.put('/mypage/profile/update',loginRouter);
 
 app.get('/write',loginRouter);
 
@@ -80,9 +81,9 @@ app.get('/detail/:id',loginRouter);
 
 app.use('/detail/delete',loginRouter);
 
-app.use('/comment',loginRouter);
+app.post('/comment',loginRouter);
 
-app.use('/scam/add',loginRouter);
+app.get('/scam/add',loginRouter);
 
 app.get('/pocawrite',loginRouter);
 

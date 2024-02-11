@@ -24,7 +24,7 @@
 
     <h1 class="profile-title ml-2 my-5"> 프로필 </h1>
     <div class="card">
-    <form action = "/mypage/profile?_method=PUT" method = "POST">
+    <form action = "/mypage/profile/update?_method=PUT" method = "post">
       
         <div class="user-box">
           <span>*</span><label>Username(이름)</label> 
@@ -46,11 +46,11 @@
             <span>*</span><label>Password(한번 더 입력)</label>
             <input type="password" name="rePW" required="">
           </div>
-        <div class ="profile-btn">
+        
           <input type="submit" id="submit" value="수정">
         </form>
+      
         <button id="delete" data-id="<%= profile._id %>">탈퇴</button>  
-      </div>
     </div>
     </body>
 

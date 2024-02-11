@@ -8,14 +8,14 @@ $('#delete').click(function(e){
     }
     
     $.ajax({
-      method:'DELETE',
-      url:'./profile/delete',
+      method:'post',
+      url:'/profile/delete',
       data:{_id:Data}
 
     }).done((result)=>{
-      alert('탈퇴되었습니다.');
-      window.location='/';
-    
+      console.log(result+" delete");
+      alert("탈퇴되었습니다.");
+      window.location.replace("/");
   }).fail((xhr,code,err)=>{
     console.log(err);
     //AJAX 실패시 실행할 코드적기
